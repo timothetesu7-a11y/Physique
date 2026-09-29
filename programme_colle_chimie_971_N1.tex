@@ -1,0 +1,491 @@
+\documentclass[11pt,a4paper]{article}
+
+% ------------------------------------------------------------------
+%  Programme de colle de chimie n°1 -- classe 971
+%  Liste détaillée des capacités exigibles (« savoir-faire »)
+% ------------------------------------------------------------------
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage[version=4]{mhchem}
+\usepackage{siunitx}
+\sisetup{locale=FR, per-mode=symbol}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+
+% --- Couleurs -------------------------------------------------------
+\definecolor{bleu}{RGB}{0,70,140}
+\definecolor{vert}{RGB}{0,110,60}
+\definecolor{orange}{RGB}{190,90,0}
+
+% --- Titres ---------------------------------------------------------
+\titleformat{\section}{\Large\bfseries\color{bleu}}{\thesection.}{0.6em}{}[{\color{bleu}\titlerule[1pt]}]
+\titleformat{\subsection}{\large\bfseries\color{bleu!80!black}}{\thesubsection}{0.6em}{}
+
+% --- Liste « à cocher » ---------------------------------------------
+\newlist{savoir}{itemize}{2}
+\setlist[savoir,1]{label=$\square$, leftmargin=2em, itemsep=2pt, topsep=4pt}
+\setlist[savoir,2]{label=--, leftmargin=1.5em, itemsep=1pt}
+
+% --- Encadrés -------------------------------------------------------
+\newtcolorbox{formules}[1][]{colback=bleu!5, colframe=bleu, fonttitle=\bfseries,
+  title={À connaître par cœur}, breakable, #1}
+\newtcolorbox{attention}{colback=orange!7, colframe=orange, fonttitle=\bfseries,
+  title={Pièges classiques}, breakable}
+\newtcolorbox{horsprog}{colback=gray!8, colframe=gray!60, fonttitle=\bfseries,
+  title={Hors programme}, breakable}
+
+% --- En-tête --------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small Colle de chimie n°1 -- 971}
+\rhead{\small du 14/09 au 09/10/2026}
+\cfoot{\thepage}
+
+\newcommand{\conc}[1]{[\ce{#1}]}
+
+\begin{document}
+
+\begin{center}
+  {\LARGE\bfseries\color{bleu} Programme de colle de chimie n°1}\\[4pt]
+  {\large Classe 971 --- du 14/09 au 09/10/2026}\\[6pt]
+  {\itshape Révisions : cours et exercices --- liste point par point de tout ce qu'il faut savoir faire}
+\end{center}
+
+\vspace{2mm}
+\noindent Chaque case $\square$ correspond à une capacité qui peut être demandée en colle
+(question de cours ou exercice). Cocher au fur et à mesure des révisions.
+
+\tableofcontents
+
+% ==================================================================
+\section{Cinétique chimique (première année) -- réacteur fermé de composition uniforme}
+% ==================================================================
+
+\subsection{Vitesses de disparition, de formation et vitesse de réaction}
+
+\begin{savoir}
+  \item Définir un \textbf{réacteur fermé de composition uniforme} (pas d'échange de matière,
+        concentrations identiques en tout point) et savoir que le volume $V$ est supposé constant.
+  \item Dresser un \textbf{tableau d'avancement} (en quantité de matière et en concentration,
+        avec l'avancement volumique $x=\xi/V$).
+  \item Définir la \textbf{vitesse volumique de disparition} d'un réactif $\ce{A}$ :
+        $v_{d}(\ce{A}) = -\dfrac{\mathrm{d}\conc{A}}{\mathrm{d}t}$ et la \textbf{vitesse volumique de
+        formation} d'un produit $\ce{P}$ : $v_{f}(\ce{P}) = \dfrac{\mathrm{d}\conc{P}}{\mathrm{d}t}$.
+  \item Définir la \textbf{vitesse volumique de réaction} pour une réaction unique
+        $\sum_i \nu_i \ce{A_i} = 0$ :
+        $v = \dfrac{1}{V}\dfrac{\mathrm{d}\xi}{\mathrm{d}t} = \dfrac{1}{\nu_i}\dfrac{\mathrm{d}\conc{A_i}}{\mathrm{d}t}$
+        ($\nu_i<0$ pour un réactif, $>0$ pour un produit).
+  \item Relier $v$ aux vitesses de disparition / formation :
+        pour $a\ce{A} + b\ce{B} \to c\ce{C}$,
+        $v = \dfrac{v_d(\ce{A})}{a} = \dfrac{v_d(\ce{B})}{b} = \dfrac{v_f(\ce{C})}{c}$.
+  \item Donner l'\textbf{unité} d'une vitesse volumique : \si{\mol\per\liter\per\second}
+        (ou \si{\mol\per\cubic\metre\per\second}).
+  \item Déterminer graphiquement une vitesse à partir d'une courbe $\conc{A}=f(t)$
+        (pente de la tangente) ; vitesse initiale.
+  \item Citer les \textbf{facteurs cinétiques} : concentrations, température, (catalyseur, surface de
+        contact) ; expliquer le principe d'une \textbf{trempe}.
+\end{savoir}
+
+\subsection{Lois de vitesse}
+
+\begin{savoir}
+  \item Définir une réaction \textbf{admettant un ordre} :
+        $v = k\,\conc{A}^{\alpha}\conc{B}^{\beta}\cdots$ ; définir les \textbf{ordres partiels}
+        $\alpha,\beta$, l'\textbf{ordre global} $\alpha+\beta+\cdots$, la \textbf{constante de vitesse} $k$.
+  \item Savoir que les ordres partiels \textbf{ne sont pas} en général les coefficients
+        stœchiométriques (ils se déterminent expérimentalement).
+  \item Donner un exemple de réaction \textbf{sans ordre}
+        (ex. $\ce{H2 + Br2 -> 2 HBr}$, loi de vitesse non monôme) ; savoir qu'une telle réaction peut
+        admettre un \textbf{ordre initial}.
+  \item Déterminer l'\textbf{unité de $k$} selon l'ordre global $n$ :
+        $(\si{\mol\per\liter})^{1-n}\,\si{\per\second}$
+        (ordre 0 : \si{\mol\per\liter\per\second} ; ordre 1 : \si{\per\second} ;
+        ordre 2 : \si{\liter\per\mol\per\second}).
+  \item Établir l'\textbf{équation différentielle} vérifiée par $\conc{A}$ pour $a\ce{A}\to$ produits,
+        $v=k\conc{A}^n$ : $-\dfrac{1}{a}\dfrac{\mathrm{d}\conc{A}}{\mathrm{d}t}=k\conc{A}^n$.
+  \item \textbf{Intégrer} cette équation pour les ordres \textbf{0, 1 et 2} (voir encadré) et
+        savoir refaire le calcul (séparation des variables).
+  \item Identifier la \textbf{fonction de $\conc{A}$ qui est affine en $t$} pour chaque ordre et en
+        déduire $k$ par la pente.
+  \item \textbf{Ordre apparent / dégénérescence de l'ordre} : si $\ce{B}$ est en large excès,
+        $\conc{B}\approx\conc{B}_0$ et $v = k_{\mathrm{app}}\conc{A}^{\alpha}$ avec
+        $k_{\mathrm{app}} = k\,\conc{B}_0^{\beta}$ ; savoir exploiter plusieurs expériences
+        avec des $\conc{B}_0$ différents pour trouver $\beta$ et $k$.
+  \item \textbf{Mélange stœchiométrique} : si $\conc{A}_0/a=\conc{B}_0/b$, alors
+        $\conc{A}/a=\conc{B}/b$ à tout instant et $v = k\,(b/a)^{\beta}\conc{A}^{\alpha+\beta}$ :
+        on accède à l'ordre global.
+  \item Connaître les méthodes de détermination d'un ordre :
+    \begin{savoir}
+      \item \textbf{méthode intégrale} : on suppose un ordre, on trace la fonction adaptée et on
+            valide par une régression linéaire (tableur / Python) ;
+      \item \textbf{méthode différentielle} : tracer $\ln v = \ln k + n\ln\conc{A}$ ;
+      \item \textbf{méthode des vitesses initiales} : $\ln v_0 = \ln k + \alpha\ln\conc{A}_0$ ;
+      \item \textbf{méthode des temps de demi-réaction} (dépendance de $t_{1/2}$ en $\conc{A}_0$).
+    \end{savoir}
+  \item Connaître les principales méthodes de \textbf{suivi expérimental} :
+        spectrophotométrie (loi de Beer-Lambert $A=\sum\varepsilon_i\ell c_i$),
+        conductimétrie (loi de Kohlrausch $\sigma=\sum\lambda_i c_i$),
+        mesure de pression (gaz parfaits), titrage après trempe ; savoir relier la grandeur mesurée
+        à l'avancement.
+\end{savoir}
+
+\subsection{Temps de demi-réaction -- demi-vie radioactive}
+
+\begin{savoir}
+  \item Définir le \textbf{temps de demi-réaction} $t_{1/2}$ : durée au bout de laquelle la moitié
+        du réactif limitant a été consommée ($\xi(t_{1/2}) = \xi_{\max}/2$ pour une réaction totale).
+  \item Établir l'expression de $t_{1/2}$ pour les ordres 0, 1, 2 et commenter la dépendance
+        vis-à-vis de $\conc{A}_0$ (indépendant de $\conc{A}_0$ uniquement à l'ordre 1).
+  \item Lire graphiquement un $t_{1/2}$ ; utiliser des $t_{1/2}$ successifs pour tester l'ordre 1
+        (durées égales pour passer de $C_0$ à $C_0/2$, puis $C_0/4$, \dots).
+  \item \textbf{Radioactivité} : savoir que la désintégration est un processus d'ordre 1,
+        $\dfrac{\mathrm{d}N}{\mathrm{d}t} = -\lambda N$, $N(t)=N_0\,e^{-\lambda t}$.
+  \item Définir la \textbf{demi-vie} d'un nucléide : $t_{1/2}=\dfrac{\ln 2}{\lambda}$ ;
+        activité $\mathcal{A}=\lambda N$ (en becquerels) ; appliquer à une \textbf{datation}
+        (ex. carbone 14).
+\end{savoir}
+
+\subsection{Loi d'Arrhenius}
+
+\begin{savoir}
+  \item Énoncer la \textbf{loi empirique d'Arrhenius} :
+        $k(T) = A\,\exp\!\left(-\dfrac{E_a}{RT}\right)$, ou sous forme différentielle
+        $\dfrac{\mathrm{d}\ln k}{\mathrm{d}T}=\dfrac{E_a}{RT^2}$ ; nommer $A$ (facteur
+        pré-exponentiel) et $E_a$ (énergie d'activation, en \si{\kilo\joule\per\mol}).
+  \item Déterminer $E_a$ \textbf{graphiquement} : tracé de $\ln k = f(1/T)$, droite de pente
+        $-E_a/R$.
+  \item Déterminer $E_a$ à partir de \textbf{deux températures} :
+        $\ln\dfrac{k_2}{k_1} = \dfrac{E_a}{R}\left(\dfrac{1}{T_1}-\dfrac{1}{T_2}\right)$ ;
+        et réciproquement calculer $k$ ou une durée à une autre température.
+  \item Utiliser le fait que $t_{1/2}$ (ou toute durée caractéristique) est inversement
+        proportionnel à $k$ pour comparer des durées à deux températures.
+  \item Connaître l'\textbf{ordre de grandeur} de $E_a$ : quelques dizaines à
+        quelques centaines de \si{\kilo\joule\per\mol} ; penser à convertir en
+        \si{\joule\per\mol} et $T$ en kelvins.
+\end{savoir}
+
+\begin{formules}
+\begin{center}
+\renewcommand{\arraystretch}{1.8}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Ordre & Loi intégrée ($a\ce{A}\to\cdots$) & Tracé linéaire & $t_{1/2}$ & Unité de $k$\\
+\hline
+0 & $\conc{A} = \conc{A}_0 - akt$ & $\conc{A}=f(t)$ & $\dfrac{\conc{A}_0}{2ak}$ & \si{\mol\per\liter\per\second}\\
+\hline
+1 & $\ln\dfrac{\conc{A}}{\conc{A}_0} = -akt$ & $\ln\conc{A}=f(t)$ & $\dfrac{\ln 2}{ak}$ & \si{\per\second}\\
+\hline
+2 & $\dfrac{1}{\conc{A}} - \dfrac{1}{\conc{A}_0} = akt$ & $\dfrac{1}{\conc{A}}=f(t)$ & $\dfrac{1}{ak\conc{A}_0}$ & \si{\liter\per\mol\per\second}\\
+\hline
+\end{tabular}
+\end{center}
+Arrhenius : $k=A\,e^{-E_a/RT}$, \quad $R=\SI{8.314}{\joule\per\kelvin\per\mol}$.
+\end{formules}
+
+\begin{attention}
+\begin{itemize}[itemsep=1pt]
+  \item Oublier le coefficient stœchiométrique $a$ dans $v=-\frac{1}{a}\frac{\mathrm{d}\conc{A}}{\mathrm{d}t}$.
+  \item Confondre ordre partiel et coefficient stœchiométrique.
+  \item Mettre $E_a$ en \si{\kilo\joule\per\mol} ou $T$ en \si{\celsius} dans l'exponentielle.
+  \item Conclure à un ordre sans vérifier la linéarité (coefficient de corrélation, résidus).
+\end{itemize}
+\end{attention}
+
+\begin{horsprog}
+Les mécanismes réactionnels (actes élémentaires, AEQS, étape cinétiquement déterminante) ne sont
+pas au programme de cette colle.
+\end{horsprog}
+
+% ==================================================================
+\section{Molécules et solvants}
+% ==================================================================
+
+\subsection{Modèle de la liaison covalente}
+
+\begin{savoir}
+  \item Écrire la \textbf{configuration électronique} d'un atome des blocs $s$ et $p$ et en
+        déduire le nombre d'\textbf{électrons de valence} (lien avec la position dans le tableau).
+  \item Définir une \textbf{liaison covalente localisée} (mise en commun d'un doublet
+        d'électrons entre deux atomes) ; liaisons simples, doubles, triples.
+  \item Énoncer les règles du \textbf{duet} (H) et de l'\textbf{octet} (éléments de la 2\textsuperscript{e} période).
+  \item Établir le \textbf{schéma de Lewis} d'une molécule ou d'un ion polyatomique :
+    \begin{savoir}
+      \item compter le nombre total d'électrons de valence (en tenant compte de la charge de l'ion) ;
+      \item en déduire le nombre de doublets, les répartir (liants et non liants) ;
+      \item vérifier duet/octet ;
+      \item placer les \textbf{charges formelles} et vérifier que leur somme vaut la charge totale.
+    \end{savoir}
+  \item Traiter les cas particuliers : \textbf{lacune électronique} (\ce{BF3}, \ce{AlCl3}),
+        \textbf{radicaux} (\ce{NO}, \ce{NO2}), \textbf{hypervalence} des éléments à partir de la
+        3\textsuperscript{e} période (\ce{PCl5}, \ce{SF6}, \ce{SO4^{2-}}, \ce{H2SO4}).
+  \item Exemples classiques à savoir faire rapidement : \ce{H2O}, \ce{NH3}, \ce{CH4}, \ce{CO2},
+        \ce{HCN}, \ce{O3}, \ce{NH4+}, \ce{H3O+}, \ce{OH-}, \ce{CO3^{2-}}, \ce{NO3-},
+        \ce{CH3COO-}, \ce{HNO3}.
+  \item Écrire des \textbf{formules mésomères} (délocalisation électronique) et identifier la plus
+        représentative (octet respecté, peu de charges, charge $-$ sur l'atome le plus électronégatif).
+  \item Connaître les \textbf{ordres de grandeur} :
+        longueur de liaison covalente $\sim \SIrange{100}{200}{\pico\metre}$ ($\sim\SI{0.1}{\nano\metre}$) ;
+        énergie de liaison $\sim \SIrange{100}{800}{\kilo\joule\per\mol}$ (typiquement quelques centaines).
+  \item Savoir qu'une liaison \textbf{multiple} est plus courte et plus forte qu'une liaison simple
+        entre les mêmes atomes.
+\end{savoir}
+
+\subsection{Géométrie et polarité des entités chimiques}
+
+\begin{savoir}
+  \item Définir l'\textbf{électronégativité} (aptitude d'un atome à attirer vers lui les électrons
+        d'une liaison) ; connaître son évolution dans le tableau périodique
+        (croît de gauche à droite et de bas en haut ; F le plus électronégatif) ;
+        ordre $\chi(\ce{F})>\chi(\ce{O})>\chi(\ce{N})\approx\chi(\ce{Cl})>\chi(\ce{C})>\chi(\ce{H})$.
+  \item Définir une \textbf{liaison polarisée} et placer les \textbf{charges partielles} $\delta^+$ / $\delta^-$.
+  \item Définir le \textbf{moment dipolaire} d'une liaison : $\vec{p} = q\,\overrightarrow{NP}$,
+        orienté du pôle $-$ vers le pôle $+$ (convention des physiciens) ; unité :
+        \si{\coulomb\metre} ou debye ($\SI{1}{D}\approx\SI{3.33e-30}{\coulomb\metre}$).
+  \item Déterminer si une molécule est \textbf{polaire} à partir de sa géométrie \emph{donnée}
+        (somme vectorielle des moments de liaison) : \ce{CO2}, \ce{CH4}, \ce{CCl4}, \ce{BF3}
+        apolaires ; \ce{H2O}, \ce{NH3}, \ce{HCl}, \ce{CHCl3} polaires.
+  \item Calculer un moment dipolaire par addition vectorielle (ex. \ce{H2O} connaissant l'angle
+        et le moment de la liaison \ce{O-H}), ou inversement une charge partielle.
+\end{savoir}
+
+\begin{horsprog}
+La méthode VSEPR n'est pas encore au programme : la géométrie des molécules est fournie.
+\end{horsprog}
+
+\subsection{Forces intermoléculaires}
+
+\begin{savoir}
+  \item Connaître les trois types d'\textbf{interactions de van der Waals} :
+    \begin{savoir}
+      \item \textbf{Keesom} : dipôle permanent -- dipôle permanent ;
+      \item \textbf{Debye} : dipôle permanent -- dipôle induit ;
+      \item \textbf{London} : dipôle instantané -- dipôle induit (toujours présente, souvent
+            prépondérante).
+    \end{savoir}
+  \item Définir la \textbf{polarisabilité} (aptitude du nuage électronique à se déformer) :
+        elle augmente avec la taille/le nombre d'électrons de l'entité.
+  \item Savoir que ces interactions sont \textbf{attractives}, de \textbf{courte portée}
+        (énergie en $1/r^6$) et \textbf{non directionnelles}.
+  \item Décrire la \textbf{liaison hydrogène} : $\ce{X-H\bond{...}Y}$ avec $\ce{X}$ et $\ce{Y}$ très
+        électronégatifs (N, O, F) et $\ce{Y}$ porteur d'un doublet non liant ;
+        elle est \textbf{directionnelle} (X, H, Y quasi alignés) ;
+        distinguer liaison H \textbf{intermoléculaire} et \textbf{intramoléculaire}.
+  \item Connaître les \textbf{ordres de grandeur énergétiques} :
+        van der Waals $\sim \SIrange{1}{10}{\kilo\joule\per\mol}$ ;
+        liaison hydrogène $\sim \SIrange{10}{40}{\kilo\joule\per\mol}$ ;
+        liaison covalente $\sim \SIrange{100}{800}{\kilo\joule\per\mol}$.
+  \item \textbf{Interpréter des températures de changement d'état} :
+    \begin{savoir}
+      \item croissance de $T_{\text{éb}}$ dans la famille des alcanes ou des dihalogènes
+            (\ce{F2}, \ce{Cl2}, \ce{Br2}, \ce{I2}) : polarisabilité, London ;
+      \item influence de la ramification (isomères du pentane : surface de contact) ;
+      \item anomalie de \ce{H2O}, \ce{NH3}, \ce{HF} par rapport aux hydrures de la même colonne
+            (liaisons H) ;
+      \item comparaison alcool / éther / alcane de masses molaires voisines.
+    \end{savoir}
+\end{savoir}
+
+\subsection{Solvants, solubilité et miscibilité}
+
+\begin{savoir}
+  \item Connaître les \textbf{grandeurs caractéristiques} d'un solvant moléculaire :
+    \begin{savoir}
+      \item \textbf{moment dipolaire} $\Rightarrow$ solvant polaire / apolaire (pouvoir \textbf{ionisant}) ;
+      \item \textbf{permittivité relative} $\varepsilon_r$ $\Rightarrow$ pouvoir \textbf{dissociant}
+            (force de Coulomb entre ions divisée par $\varepsilon_r$ :
+            $F=\dfrac{q_1q_2}{4\pi\varepsilon_0\varepsilon_r r^2}$) ; solvant dissociant si
+            $\varepsilon_r$ grand (eau : $\varepsilon_r\approx 80$) ;
+      \item caractère \textbf{protogène (protique)} : capacité à donner des liaisons hydrogène
+            (liaison \ce{O-H} ou \ce{N-H}).
+    \end{savoir}
+  \item \textbf{Classer} des solvants usuels : eau, méthanol, éthanol (polaires, protiques,
+        dissociants) ; acétone, DMSO, acétonitrile (polaires, aprotiques) ;
+        cyclohexane, hexane, toluène, tétrachlorométhane (apolaires, aprotiques).
+  \item Décrire les étapes de la \textbf{mise en solution d'un composé ionique} :
+        \textbf{ionisation} (si nécessaire), \textbf{dissociation} des paires d'ions,
+        \textbf{solvatation} (hydratation) des ions ; relier chaque étape à une propriété du solvant.
+  \item Décrire la mise en solution d'une \textbf{espèce moléculaire} (interactions soluté--solvant
+        de van der Waals et liaisons H à créer / à rompre).
+  \item Définir \textbf{solubilité} (quantité maximale dissoute par litre de solution, en
+        \si{\mol\per\liter} ou \si{\gram\per\liter}) et \textbf{miscibilité} de deux liquides.
+  \item Prévoir/interpréter une solubilité ou une miscibilité par la règle
+        « \textbf{qui se ressemble s'assemble} » : eau/éthanol miscibles (liaisons H),
+        eau/cyclohexane non miscibles, \ce{I2} plus soluble dans le cyclohexane que dans l'eau,
+        solubilité des alcools qui décroît avec la longueur de la chaîne carbonée.
+  \item \textbf{Choisir un solvant d'extraction} liquide-liquide (non miscible avec l'eau, espèce
+        plus soluble dedans, sécurité) et prévoir la position des phases (densités).
+\end{savoir}
+
+% ==================================================================
+\section{Structure et propriétés physiques des solides}
+% ==================================================================
+
+\subsection{Modèle du cristal parfait}
+
+\begin{savoir}
+  \item Définir : \textbf{cristal parfait}, \textbf{réseau}, \textbf{nœud}, \textbf{motif},
+        \textbf{maille} (conventionnelle), paramètre de maille $a$ ; distinguer solide
+        cristallin et solide \textbf{amorphe}.
+  \item Déterminer la \textbf{population} $Z$ (ou multiplicité) d'une maille :
+        contribution d'un atome au sommet $\frac18$, sur une arête $\frac14$, sur une face
+        $\frac12$, à l'intérieur $1$.
+  \item Déterminer la \textbf{coordinence} d'un atome ou d'un ion (nombre de plus proches voisins),
+        notée par ex. $[6]$ ou « 6/6 » pour un cristal ionique.
+  \item Écrire la \textbf{condition de contact (tangence)} entre atomes dans une maille et en
+        déduire la relation entre $a$ et le rayon $R$.
+  \item Calculer la \textbf{compacité} :
+        $C = \dfrac{\text{volume occupé par les atomes}}{\text{volume de la maille}}
+        = \dfrac{Z\cdot\frac43\pi R^3}{a^3}$ (somme sur les différentes espèces le cas échéant).
+  \item Calculer la \textbf{masse volumique} : $\rho = \dfrac{Z\,M}{\mathcal{N}_A\,a^3}$
+        (attention aux unités : $M$ en \si{\kilo\gram\per\mol}, $a$ en \si{\metre}) ; et
+        réciproquement déterminer $a$, $R$ ou $M$ à partir de $\rho$.
+  \item Connaître les différents \textbf{rayons} et leurs ordres de grandeur
+        ($\sim\SI{100}{\pico\metre}$) : \textbf{métallique}, \textbf{covalent},
+        \textbf{de van der Waals} (plus grand que le rayon covalent), \textbf{ionique}
+        (cation plus petit que l'atome, anion plus gros).
+\end{savoir}
+
+\subsection{Empilements compacts -- maille CFC -- sites interstitiels}
+
+\begin{savoir}
+  \item Décrire un \textbf{plan compact} de sphères identiques et les deux empilements compacts :
+        \textbf{ABAB\dots} (hexagonal compact) et \textbf{ABCABC\dots} (cubique à faces centrées).
+  \item Représenter la \textbf{maille CFC} (perspective et projection cotée) et savoir où se
+        trouvent les plans compacts (perpendiculaires à une grande diagonale du cube).
+  \item Établir pour la CFC : $Z=4$ ; coordinence $12$ ; contact selon la
+        \textbf{diagonale d'une face} : $a\sqrt2 = 4R$ ; compacité
+        $C=\dfrac{\pi}{3\sqrt2}\approx 0{,}74$ (valeur maximale pour des sphères identiques).
+  \item Localiser les \textbf{sites tétraédriques} : centres des 8 petits cubes d'arête $a/2$ ;
+        \textbf{8 sites T par maille} (2 par atome).
+  \item Localiser les \textbf{sites octaédriques} : centre du cube et milieux des 12 arêtes ;
+        \textbf{4 sites O par maille} ($1+12\times\frac14$, 1 par atome).
+  \item Calculer l'\textbf{habitabilité} (rayon maximal $r$ d'une sphère insérée sans déformer
+        le réseau, atomes hôtes de rayon $R$ en contact) :
+    \begin{savoir}
+      \item site O : $R + r = \dfrac a2$ $\Rightarrow$ $r_O = (\sqrt2-1)R \approx 0{,}414\,R$ ;
+      \item site T : $R + r = \dfrac{a\sqrt3}{4}$ $\Rightarrow$
+            $r_T = \left(\sqrt{\tfrac32}-1\right)R \approx 0{,}225\,R$.
+    \end{savoir}
+  \item Appliquer aux \textbf{alliages} : alliage de \textbf{substitution} (rayons voisins) et
+        d'\textbf{insertion} (petit atome, ex. C dans Fe) ; comparer le rayon de l'atome inséré à
+        l'habitabilité et conclure sur la déformation éventuelle du réseau.
+\end{savoir}
+
+\subsection{Limites du modèle}
+
+\begin{savoir}
+  \item Citer les limites du modèle du cristal parfait : \textbf{défauts} ponctuels (lacunes,
+        atomes interstitiels, impuretés/substitutions), dislocations, joints de grains
+        (polycristaux), agitation thermique, solides amorphes (verres).
+  \item Discuter le modèle des \textbf{sphères dures} (rayons dépendant de l'environnement et de
+        la nature de la liaison) ; comparer une masse volumique calculée et mesurée.
+\end{savoir}
+
+\subsection{Métaux et cristaux métalliques}
+
+\begin{savoir}
+  \item Décrire la \textbf{liaison métallique} : cations dans un « gaz » d'électrons délocalisés
+        sur tout le cristal ; liaison \textbf{non directionnelle}, énergie de cohésion
+        $\sim\SIrange{100}{800}{\kilo\joule\per\mol}$ (quelques centaines).
+  \item Relier ces caractéristiques aux \textbf{propriétés macroscopiques} :
+    \begin{savoir}
+      \item électrons délocalisés $\Rightarrow$ bonne \textbf{conductivité électrique et thermique},
+            éclat métallique ;
+      \item non-directionnalité $\Rightarrow$ \textbf{ductilité, malléabilité} (glissement des
+            plans sans rupture) ;
+      \item énergie de cohésion élevée et variable $\Rightarrow$ températures de fusion très variées
+            (Hg liquide, W $\approx\SI{3400}{\celsius}$) ;
+      \item structures souvent compactes (CFC, HC) ou cubique centrée.
+    \end{savoir}
+  \item Faire les calculs de cristallographie sur un métal CFC (Cu, Al, Ag, Au, Ni\dots).
+\end{savoir}
+
+\subsection{Solides covalents et moléculaires}
+
+\begin{savoir}
+  \item \textbf{Solides covalents} (diamant, silicium, graphite, silice) : atomes liés par des
+        liaisons covalentes \textbf{directionnelles} et \textbf{fortes}
+        ($\sim\SIrange{100}{800}{\kilo\joule\per\mol}$) ; en déduire : grande dureté,
+        températures de fusion très élevées, isolants (sauf graphite), insolubles.
+  \item Décrire la \textbf{structure du diamant} : C aux nœuds d'un réseau CFC + la moitié des
+        sites T (un sur deux, en quinconce) ; $Z=8$, coordinence 4 (tétraédrique) ;
+        contact selon le quart de la grande diagonale : $2R_{\mathrm{C}}=\dfrac{a\sqrt3}{4}$ ;
+        compacité $\approx0{,}34$ ; calcul de $\rho$.
+  \item Comparer \textbf{diamant et graphite} (feuillets liés par van der Waals : clivage, lubrifiant ;
+        électrons délocalisés dans les feuillets : conducteur).
+  \item \textbf{Solides moléculaires} (\ce{I2}, \ce{CO2} carboglace, glace, sucres) : molécules
+        liées par des interactions de \textbf{van der Waals} (non directionnelles,
+        $\sim\SIrange{1}{10}{\kilo\joule\per\mol}$) et/ou des \textbf{liaisons hydrogène}
+        (directionnelles, $\sim\SIrange{10}{40}{\kilo\joule\per\mol}$) ; en déduire :
+        températures de fusion basses, faible dureté, isolants, sublimation possible.
+  \item Expliquer la structure de la \textbf{glace} : liaisons H directionnelles
+        $\Rightarrow$ structure ouverte (tétraédrique, peu compacte) $\Rightarrow$ glace moins dense que
+        l'eau liquide.
+\end{savoir}
+
+\subsection{Solides ioniques}
+
+\begin{savoir}
+  \item Énoncer le \textbf{modèle ionique parfait} : ions sphériques, charges ponctuelles
+        \textbf{localisées}, interaction coulombienne \textbf{non directionnelle},
+        énergie d'interaction élevée ($\sim\SIrange{100}{1000}{\kilo\joule\per\mol}$, voire plus).
+  \item Vérifier l'\textbf{électroneutralité} de la maille et en déduire la formule du solide.
+  \item Décrire la structure type \textbf{NaCl} : \ce{Cl-} en CFC, \ce{Na+} dans
+        \textbf{tous les sites O} ; $Z=4$ motifs \ce{NaCl} ; coordinence 6/6 ; contact
+        cation--anion le long d'une arête : $a = 2(r_+ + r_-)$.
+  \item Décrire d'autres structures fondées sur la CFC : \textbf{blende ZnS} (\ce{S^{2-}} en CFC,
+        \ce{Zn^{2+}} dans la moitié des sites T, coordinence 4/4, contact selon
+        $\frac14$ de la grande diagonale) ; \textbf{fluorine \ce{CaF2}} (\ce{Ca^{2+}} en CFC,
+        \ce{F-} dans tous les sites T, coordinence 8/4).
+  \item Écrire les \textbf{conditions de stabilité} : contact anion--cation et non-contact entre
+        anions ; en déduire une condition sur $r_+/r_-$ (ex. NaCl :
+        $\sqrt2-1 \le r_+/r_-$).
+  \item Calculer compacité et masse volumique d'un cristal ionique (somme sur les deux ions).
+  \item Relier les caractéristiques de l'interaction ionique aux \textbf{propriétés macroscopiques} :
+        températures de fusion élevées, dureté mais \textbf{fragilité} (cassants : un glissement
+        met en regard des ions de même charge), \textbf{isolants} à l'état solide mais
+        \textbf{conducteurs} fondus ou en solution, souvent solubles dans les solvants polaires
+        et dissociants (eau).
+\end{savoir}
+
+\begin{formules}
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|l|c|}
+\hline
+Population (CFC) & $Z = 8\times\frac18 + 6\times\frac12 = 4$ \\ \hline
+Contact (CFC métallique) & $a\sqrt2 = 4R$ \\ \hline
+Compacité & $C = \dfrac{Z\cdot\frac43\pi R^3}{a^3}$ \quad ($C_{\mathrm{CFC}} = \frac{\pi}{3\sqrt2}\approx 0{,}74$) \\ \hline
+Masse volumique & $\rho = \dfrac{Z\,M}{\mathcal N_A\,a^3}$ \\ \hline
+Sites O / sites T (CFC) & 4 par maille / 8 par maille \\ \hline
+Habitabilités & $r_O = (\sqrt2-1)R\approx0{,}414\,R$ \quad $r_T=(\sqrt{3/2}-1)R\approx0{,}225\,R$ \\ \hline
+\end{tabular}
+\end{center}
+\end{formules}
+
+\subsection*{Tableau de synthèse des types de solides}
+
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|>{\raggedright\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}p{4.6cm}|}
+\hline
+\textbf{Solide} & \textbf{Interaction} & \textbf{Énergie (\si{\kilo\joule\per\mol})} & \textbf{Direction\-nelle ?} & \textbf{Propriétés} \\ \hline
+Métallique & électrons délocalisés & $10^2$ & non & conducteur, ductile, malléable, éclat \\ \hline
+Covalent & liaison covalente & $10^2$ -- $10^3$ & oui & très dur, $T_{\mathrm{fus}}$ très élevée, isolant (sauf graphite) \\ \hline
+Ionique & coulombienne & $10^2$ -- $10^3$ & non & dur mais cassant, $T_{\mathrm{fus}}$ élevée, isolant solide, conducteur fondu/dissous \\ \hline
+Moléculaire & van der Waals / liaison H & $1$ -- $40$ & non / oui (H) & tendre, $T_{\mathrm{fus}}$ basse, isolant \\ \hline
+\end{tabular}
+\end{center}
+
+\end{document}
