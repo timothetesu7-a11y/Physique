@@ -1,0 +1,779 @@
+\documentclass[11pt,a4paper]{article}
+
+% ------------------------------------------------------------------
+%  Programme de colle de physique n°7 et 8 -- classe 971
+%  Th1 : diffusion de particules -- Th2 : diffusion thermique
+%  Cours complet avec démonstration de chaque point du programme
+% ------------------------------------------------------------------
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{siunitx}
+\sisetup{locale=FR, per-mode=symbol}
+\usepackage{array,booktabs}
+\usepackage{enumitem}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,babel,decorations.pathreplacing}
+\usepackage[hidelinks]{hyperref}
+
+% --- Couleurs -------------------------------------------------------
+\definecolor{bleu}{RGB}{0,70,140}
+\definecolor{vert}{RGB}{0,110,60}
+\definecolor{orange}{RGB}{190,90,0}
+\definecolor{rouge}{RGB}{170,20,20}
+
+% --- Titres ---------------------------------------------------------
+\titleformat{\section}{\Large\bfseries\color{bleu}}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\large\bfseries\color{bleu!80!black}}{\thesubsection}{0.5em}{}
+
+% --- Encadrés -------------------------------------------------------
+\newtcolorbox{formule}[1][]{colback=bleu!5, colframe=bleu, fonttitle=\bfseries,
+  title={À retenir}, breakable, #1}
+\newtcolorbox{demo}[1][]{colback=vert!4, colframe=vert, fonttitle=\bfseries,
+  title={Démonstration}, breakable, #1}
+\newtcolorbox{attention}{colback=orange!7, colframe=orange, fonttitle=\bfseries,
+  title={Pièges classiques}, breakable}
+\newtcolorbox{exemple}[1][]{colback=gray!6, colframe=gray!60, fonttitle=\bfseries,
+  title={Exemple d'application}, breakable, #1}
+
+% --- Notations -----------------------------------------------------
+\newcommand{\vect}[1]{\overrightarrow{#1}}
+\newcommand{\jn}{\vec{\jmath}_N}
+\newcommand{\jth}{\vec{\jmath}_{\mathrm{th}}}
+\newcommand{\grad}{\vect{\mathrm{grad}}\,}
+\renewcommand{\div}{\mathrm{div}\,}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\ux}{\vec{u}_x}
+\newcommand{\ur}{\vec{u}_r}
+\newcommand{\pd}[2]{\dfrac{\partial #1}{\partial #2}}
+\newcommand{\pdd}[2]{\dfrac{\partial^2 #1}{\partial #2^2}}
+
+% --- En-tête --------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small Colles de physique n°7 et 8 -- 971}
+\rhead{\small Phénomènes diffusifs}
+\cfoot{\thepage}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+
+\begin{document}
+
+\begin{center}
+  {\LARGE\bfseries\color{bleu} Programme de colle de physique n°7 et 8}\\[4pt]
+  {\large Classe 971 --- Phénomènes diffusifs}\\[6pt]
+  {\itshape Th1 : diffusion de particules --- Th2 : diffusion thermique}\\[2pt]
+  {\itshape Cours complet : chaque point du programme est énoncé puis démontré}
+\end{center}
+
+\tableofcontents
+\newpage
+
+% ==================================================================
+\section{Th1 -- Diffusion de particules}
+% ==================================================================
+
+\subsection{Position du problème}
+
+La \textbf{diffusion} est un transport de matière \emph{sans mouvement macroscopique} du
+milieu, dû à l'agitation thermique des particules et à l'inhomogénéité de leur
+concentration (goutte d'encre dans l'eau immobile, parfum dans une pièce sans courant d'air,
+dopage d'un semi-conducteur\dots). On se distingue ainsi de la \textbf{convection}
+(transport par un écoulement d'ensemble).
+
+On décrit le milieu par la \textbf{densité particulaire} $n(M,t)$ (en \si{\per\cubic\metre}) :
+le nombre de particules dans un volume mésoscopique $\dd\tau$ autour de $M$ est
+$\dd N = n(M,t)\,\dd\tau$.
+
+\subsection{Densité de courant de particules et flux}
+
+\begin{formule}[title={Définitions}]
+\begin{itemize}[leftmargin=1.5em]
+  \item \textbf{Vecteur densité de courant de particules} $\jn(M,t)$ (en
+        \si{\per\square\metre\per\second}) : le nombre de particules traversant une surface
+        élémentaire orientée $\dd\vec S=\dd S\,\vec n$ pendant $\dd t$ est
+        \[ \delta^2 N = \jn\cdot\dd\vec S\;\dd t. \]
+  \item \textbf{Flux de particules} à travers une surface orientée $\Sigma$ (en
+        \si{\per\second}) :
+        \[ \Phi_N = \iint_{\Sigma}\jn\cdot\dd\vec S
+           \qquad\text{et}\qquad \delta N=\Phi_N\,\dd t. \]
+\end{itemize}
+\end{formule}
+
+\begin{demo}[title={Démonstration : nombre de particules traversant une surface, $\jn=n\vec v$}]
+Supposons que les particules au voisinage de $M$ aient une vitesse moyenne d'ensemble
+$\vec v$ (vitesse de diffusion). Pendant $\dd t$, les particules qui traversent $\dd\vec S$
+sont celles contenues dans le cylindre oblique de base $\dd S$ et de génératrice
+$\vec v\,\dd t$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.1]
+  \draw[thick] (0,0) -- (0,1.5);
+  \draw[thick,dashed] (1.6,0.6) -- (1.6,2.1);
+  \draw (0,0) -- (1.6,0.6); \draw (0,1.5) -- (1.6,2.1);
+  \draw[-{Stealth},thick,rouge] (0,0.75) -- (1.6,1.35) node[above,midway,sloped]{$\vec v\,\dd t$};
+  \draw[-{Stealth},thick,bleu] (0,0.75) -- (0.9,0.75) node[below right]{$\vec n$};
+  \node[left] at (0,0.75) {$\dd S$};
+  \node at (0.6,0.75) [above left] {$\alpha$};
+\end{tikzpicture}
+\end{center}
+
+Son volume est $\dd\tau = \dd S\,(v\,\dd t)\cos\alpha = \vec v\cdot\dd\vec S\;\dd t$, donc
+\[ \delta^2N = n\,\dd\tau = (n\vec v)\cdot\dd\vec S\;\dd t
+   \quad\Longrightarrow\quad \boxed{\jn = n\,\vec v}. \]
+En sommant sur toute la surface $\Sigma$ : $\delta N = \left(\iint_\Sigma \jn\cdot\dd\vec S\right)\dd t=\Phi_N\,\dd t$.
+\end{demo}
+
+\begin{attention}
+\begin{itemize}[leftmargin=1.5em]
+  \item Le flux est \textbf{algébrique} : il dépend de l'orientation choisie pour $\Sigma$.
+        Pour une surface fermée, on oriente par convention vers l'\textbf{extérieur} :
+        $\Phi_N>0$ signifie que des particules \emph{sortent}.
+  \item $\jn$ est une \emph{densité surfacique de débit}, ne pas la confondre avec $n$
+        (densité volumique).
+\end{itemize}
+\end{attention}
+
+\subsection{Bilan global de particules}
+
+\begin{demo}[title={Démonstration : bilan global}]
+Soit un volume $V$ \emph{fixe} délimité par la surface fermée $\Sigma$ orientée vers
+l'extérieur. On note $\sigma(M,t)$ le \textbf{taux volumique de production} de particules
+(en \si{\per\cubic\metre\per\second}) : $\sigma\,\dd\tau\,\dd t$ particules sont créées
+dans $\dd\tau$ pendant $\dd t$ ($\sigma<0$ pour une disparition : réaction chimique,
+absorption\dots).
+
+Le nombre de particules dans $V$ est $N(t)=\iiint_V n\,\dd\tau$. Entre $t$ et $t+\dd t$ :
+\[ \underbrace{N(t+\dd t)-N(t)}_{\text{variation}}
+   = \underbrace{-\Phi_{N,\text{sortant}}\,\dd t}_{\text{échange}}
+   + \underbrace{\left(\iiint_V\sigma\,\dd\tau\right)\dd t}_{\text{création}}, \]
+\[ \boxed{\dfrac{\dd N}{\dd t} = -\oiint_\Sigma \jn\cdot\dd\vec S + \iiint_V \sigma\,\dd\tau.} \]
+Sans source et en régime stationnaire ($\dd N/\dd t=0$) : le flux sortant à travers toute
+surface fermée est nul.
+\end{demo}
+
+\subsection{Bilan local à une dimension}
+
+On se place dans une géométrie où $n=n(x,t)$ et $\jn=j_N(x,t)\,\ux$ (tube de section
+$S$ constante, ou milieu infini invariant selon $y$ et $z$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+  \draw[->] (-0.5,0) -- (7,0) node[right]{$x$};
+  \fill[bleu!10] (2,-1) rectangle (4.5,1);
+  \draw[thick] (2,-1) rectangle (4.5,1);
+  \node[below] at (2,-1) {$x$};
+  \node[below] at (4.5,-1) {$x+\dd x$};
+  \node at (3.25,0.5) {$S$};
+  \draw[-{Stealth},thick,rouge] (0.6,0.3) -- (2,0.3) node[midway,above]{$j_N(x)$};
+  \draw[-{Stealth},thick,rouge] (4.5,0.3) -- (6,0.3) node[midway,above]{$j_N(x{+}\dd x)$};
+\end{tikzpicture}
+\end{center}
+
+\begin{demo}[title={Démonstration : équation locale de conservation à 1D}]
+Système : la tranche fixe comprise entre $x$ et $x+\dd x$, de volume $S\,\dd x$.
+\begin{itemize}[leftmargin=1.5em]
+  \item Nombre de particules à $t$ : $N(t)=n(x,t)\,S\,\dd x$, d'où la variation pendant $\dd t$ :
+        \[ \dd N = \big[n(x,t+\dd t)-n(x,t)\big]S\,\dd x = \pd{n}{t}\,S\,\dd x\,\dd t. \]
+  \item Particules entrant en $x$ moins particules sortant en $x+\dd x$ :
+        \[ \delta N_{\text{éch}} = \big[j_N(x,t)-j_N(x+\dd x,t)\big]S\,\dd t
+           = -\pd{j_N}{x}\,S\,\dd x\,\dd t. \]
+        (Pas de flux à travers les parois latérales car $\jn\parallel\ux$.)
+  \item Particules créées : $\delta N_{\text{créé}}=\sigma\,S\,\dd x\,\dd t$.
+\end{itemize}
+Le bilan $\dd N=\delta N_{\text{éch}}+\delta N_{\text{créé}}$ donne, après simplification par
+$S\,\dd x\,\dd t$ :
+\[ \boxed{\pd{n}{t} + \pd{j_N}{x} = \sigma}
+   \qquad\text{(sans source : } \sigma=0\text{).} \]
+\end{demo}
+
+\subsection{Opérateurs différentiels en coordonnées cartésiennes}
+
+\begin{formule}[title={Opérateurs en cartésiennes}]
+Pour un champ scalaire $f(x,y,z)$ et un champ vectoriel $\vec A=A_x\ux+A_y\vec u_y+A_z\vec u_z$ :
+\[
+\grad f = \pd{f}{x}\ux + \pd{f}{y}\vec u_y + \pd{f}{z}\vec u_z,
+\qquad
+\div\vec A = \pd{A_x}{x}+\pd{A_y}{y}+\pd{A_z}{z},
+\]
+\[
+\Delta f = \div\left(\grad f\right) = \pdd{f}{x}+\pdd{f}{y}+\pdd{f}{z}.
+\]
+Propriétés : $\dd f = \grad f\cdot\dd\vect{OM}$ ; $\grad f$ est orthogonal aux surfaces
+$f=\text{cte}$ et dirigé vers les $f$ croissants.
+\end{formule}
+
+\begin{formule}[title={Formulaire (donné) en cylindriques et sphériques, cas utiles}]
+\textbf{Cylindriques} $(r,\theta,z)$, champ $f(r)$ et $\vec A=A_r(r)\,\ur$ :
+\[ \grad f=\dfrac{\dd f}{\dd r}\ur,\qquad
+   \div\vec A=\dfrac1r\dfrac{\dd (rA_r)}{\dd r},\qquad
+   \Delta f=\dfrac1r\dfrac{\dd}{\dd r}\!\left(r\dfrac{\dd f}{\dd r}\right). \]
+\textbf{Sphériques} $(r,\theta,\varphi)$, champ $f(r)$ et $\vec A=A_r(r)\,\ur$ :
+\[ \grad f=\dfrac{\dd f}{\dd r}\ur,\qquad
+   \div\vec A=\dfrac1{r^2}\dfrac{\dd (r^2A_r)}{\dd r},\qquad
+   \Delta f=\dfrac1{r^2}\dfrac{\dd}{\dd r}\!\left(r^2\dfrac{\dd f}{\dd r}\right). \]
+\end{formule}
+
+\begin{exemple}[title={Savoir calculer : exemples}]
+\begin{enumerate}[leftmargin=1.5em]
+  \item $f=x^2y+z$ : $\grad f = 2xy\,\ux + x^2\,\vec u_y+\vec u_z$ et
+        $\Delta f = 2y$.
+  \item $\vec A = \vect{OM}=x\ux+y\vec u_y+z\vec u_z$ : $\div\vec A = 1+1+1=3$.
+  \item $f=\dfrac{1}{r}$ en sphériques : $\grad f=-\dfrac{1}{r^2}\ur$ et
+        $\Delta f = \dfrac{1}{r^2}\dfrac{\dd}{\dd r}\left(r^2\cdot\dfrac{-1}{r^2}\right)=0$
+        (pour $r\neq 0$).
+  \item $\vec A=\dfrac{\ur}{r}$ en cylindriques : $\div\vec A=\dfrac1r\dfrac{\dd(1)}{\dd r}=0$.
+\end{enumerate}
+\end{exemple}
+
+\subsection{Bilan local à trois dimensions}
+
+\begin{demo}[title={Démonstration : équation locale de conservation à 3D}]
+\textbf{Méthode 1 (théorème de Green--Ostrogradski).} Pour un volume $V$ fixe quelconque,
+le bilan global s'écrit
+\[ \iiint_V \pd{n}{t}\,\dd\tau = -\oiint_\Sigma\jn\cdot\dd\vec S+\iiint_V\sigma\,\dd\tau
+   = -\iiint_V \div\jn\,\dd\tau + \iiint_V\sigma\,\dd\tau, \]
+soit $\iiint_V\left(\pd{n}{t}+\div\jn-\sigma\right)\dd\tau=0$ pour \emph{tout} volume $V$ :
+l'intégrande est donc nul en tout point.
+
+\textbf{Méthode 2 (cube élémentaire).} Sur un parallélépipède $\dd x\,\dd y\,\dd z$, le flux
+net sortant par les deux faces normales à $\ux$ vaut
+$[j_x(x+\dd x)-j_x(x)]\dd y\,\dd z=\pd{j_x}{x}\dd\tau$ ; de même selon $y$ et $z$. Le flux
+total sortant est $\left(\pd{j_x}{x}+\pd{j_y}{y}+\pd{j_z}{z}\right)\dd\tau=\div\jn\,\dd\tau$.
+On retrouve :
+\[ \boxed{\pd{n}{t}+\div\jn=\sigma.} \]
+Le bilan 1D en est le cas particulier $\jn=j_N(x,t)\ux$.
+\end{demo}
+
+\subsection{Loi de Fick}
+
+\begin{formule}[title={Loi de Fick (loi phénoménologique)}]
+\[ \boxed{\jn = -D\,\grad n} \qquad\text{à 1D : } j_N=-D\pd{n}{x}. \]
+$D>0$ est le \textbf{coefficient de diffusion} en \si{\square\metre\per\second}.
+Ordres de grandeur :
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Milieu & gaz dans gaz & soluté dans liquide & atomes dans solide \\
+\midrule
+$D$ (\si{\square\metre\per\second}) & $\sim 10^{-5}$ & $\sim 10^{-9}$ & $10^{-30}$ à $10^{-16}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{formule}
+
+\textbf{Interprétation et analyse.}
+\begin{itemize}[leftmargin=1.5em]
+  \item Le signe $-$ traduit que les particules diffusent des zones \textbf{les plus concentrées}
+        vers les \textbf{moins concentrées} : $\jn$ est opposé à $\grad n$. La diffusion tend à
+        uniformiser la concentration.
+  \item Vérification dimensionnelle : $[\jn]=\si{\per\square\metre\per\second}$ et
+        $[\grad n]=\si{\per\metre\tothe{4}}$, donc $[D]=\si{\square\metre\per\second}$.
+  \item C'est une loi \emph{linéaire}, empirique, valable si le gradient n'est pas trop fort
+        et en l'absence de convection ; $D$ augmente avec la température.
+  \item La loi est \textbf{instantanée} (pas de retard entre cause et effet) : c'est une
+        approximation.
+\end{itemize}
+
+\subsection{Équation de diffusion}
+
+\begin{demo}[title={Démonstration : équation de diffusion à 1D}]
+On combine l'équation de conservation $\pd{n}{t}+\pd{j_N}{x}=\sigma$ et la loi de Fick
+$j_N=-D\pd{n}{x}$ (avec $D$ uniforme) :
+\[ \pd{n}{t} - \pd{}{x}\!\left(D\pd{n}{x}\right)=\sigma
+   \quad\Longrightarrow\quad
+   \boxed{\pd{n}{t}=D\pdd{n}{x}+\sigma}. \]
+Sans source interne : $\pd{n}{t}=D\pdd{n}{x}$.
+\end{demo}
+
+\begin{demo}[title={Démonstration : équation de diffusion à 3D}]
+$\pd{n}{t}+\div\jn=\sigma$ et $\jn=-D\grad n$ avec $D$ uniforme donnent
+$\div\jn=-D\,\div(\grad n)=-D\,\Delta n$ :
+\[ \boxed{\pd{n}{t}=D\,\Delta n+\sigma} \qquad\text{sans source : }\pd{n}{t}=D\,\Delta n. \]
+\end{demo}
+
+\textbf{Propriétés de l'équation de diffusion.}
+\begin{itemize}[leftmargin=1.5em]
+  \item \textbf{Linéaire} : on peut superposer des solutions.
+  \item \textbf{Irréversible} : par le changement $t\to -t$ elle devient
+        $-\pd{n}{t}=D\Delta n$, qui n'est pas la même équation (dérivée temporelle d'ordre 1,
+        spatiale d'ordre 2). Le film « à l'envers » d'une goutte d'encre qui se reconcentre
+        n'est pas physique.
+  \item Une solution classique (diffusion de $N_0$ particules lâchées en $x=0$ à $t=0$) :
+        \[ n(x,t)=\dfrac{N_0/S}{\sqrt{4\pi Dt}}\exp\!\left(-\dfrac{x^2}{4Dt}\right), \]
+        gaussienne dont la largeur croît comme $\sqrt{2Dt}$ : on y voit directement la loi
+        $L\propto\sqrt{Dt}$ (vérification : dériver et injecter dans l'équation).
+\end{itemize}
+
+\subsection{Analyse en ordres de grandeur : $L^2 = D\,\tau$}
+
+\begin{demo}[title={Démonstration : relation entre échelles spatiale et temporelle}]
+Soit $L$ la distance caractéristique de variation de $n$ et $\tau$ la durée
+caractéristique de son évolution. En ordre de grandeur :
+\[ \pd{n}{t}\sim\dfrac{\Delta n}{\tau}\ (\text{variation de } n),\qquad
+   D\pdd{n}{x}\sim D\dfrac{\Delta n}{L^2}. \]
+L'équation de diffusion impose que ces deux termes soient du même ordre :
+\[ \dfrac{1}{\tau}\sim\dfrac{D}{L^2}\quad\Longrightarrow\quad
+   \boxed{L^2\sim D\,\tau}\quad\text{soit}\quad \tau\sim\dfrac{L^2}{D},\ \ L\sim\sqrt{D\tau}. \]
+\end{demo}
+
+\begin{exemple}
+\begin{itemize}[leftmargin=1.5em]
+  \item Sucre dans l'eau, $D\approx\SI{e-9}{\square\metre\per\second}$, $L=\SI{1}{\centi\metre}$ :
+        $\tau\sim 10^{-4}/10^{-9}=\SI{e5}{\second}\approx\SI{1}{jour}$ (d'où l'intérêt de
+        remuer : la convection est beaucoup plus efficace).
+  \item Parfum dans l'air, $D\approx\SI{e-5}{\square\metre\per\second}$, $L=\SI{5}{\metre}$ :
+        $\tau\sim 25/10^{-5}\approx\SI{2.5e6}{\second}\approx 1$ mois. En pratique,
+        l'odeur arrive bien plus vite à cause des courants d'air.
+  \item Conséquence : pour parcourir une distance $2L$, il faut un temps $4\tau$. La diffusion
+        est efficace aux petites échelles et très lente aux grandes.
+\end{itemize}
+\end{exemple}
+
+\subsection{Régime stationnaire sans source : conservation du flux}
+
+\begin{demo}[title={Démonstration : conservation du flux (formes locale et globale)}]
+En régime stationnaire $\pd{n}{t}=0$ et sans source $\sigma=0$ :
+\begin{itemize}[leftmargin=1.5em]
+  \item \textbf{Forme locale :} $\boxed{\div\jn=0}$ ($\jn$ est à flux conservatif).
+  \item \textbf{Forme globale :} pour toute surface fermée, $\oiint_\Sigma\jn\cdot\dd\vec S=
+        \iiint_V\div\jn\,\dd\tau=0$. Conséquence : le flux est \textbf{le même à travers
+        toutes les sections} d'un tube de courant : $\Phi_N(\Sigma_1)=\Phi_N(\Sigma_2)$
+        (en orientant $\Sigma_1$ et $\Sigma_2$ dans le même sens).
+\end{itemize}
+\end{demo}
+
+\begin{demo}[title={Application en géométrie cartésienne 1D}]
+$\dfrac{\dd j_N}{\dd x}=0$ donc $j_N=\text{cte}$, et avec Fick $\dfrac{\dd^2n}{\dd x^2}=0$ :
+$n(x)=Ax+B$. Pour un tube de longueur $L$ avec $n(0)=n_1$ et $n(L)=n_2$ :
+\[ n(x)=n_1+(n_2-n_1)\dfrac{x}{L},\qquad j_N=D\dfrac{n_1-n_2}{L},\qquad
+   \Phi_N=\dfrac{DS}{L}(n_1-n_2). \]
+\end{demo}
+
+\begin{demo}[title={Application en géométrie cylindrique ($n=n(r)$, $\jn=j(r)\ur$)}]
+\textbf{Par le flux :} le flux à travers un cylindre de rayon $r$ et de hauteur $H$ est
+$\Phi_N=j(r)\,2\pi rH$ ; il est indépendant de $r$. Avec Fick :
+\[ -D\dfrac{\dd n}{\dd r}\,2\pi rH=\Phi_N
+   \Longrightarrow \dfrac{\dd n}{\dd r}=-\dfrac{\Phi_N}{2\pi DH}\dfrac1r
+   \Longrightarrow n(r)=-\dfrac{\Phi_N}{2\pi DH}\ln r+B. \]
+\textbf{Par la forme locale :} $\div\jn=\dfrac1r\dfrac{\dd(rj)}{\dd r}=0$ donc
+$rj=\text{cte}$ : même résultat. Avec $n(R_1)=n_1$, $n(R_2)=n_2$ :
+\[ \Phi_N=\dfrac{2\pi DH\,(n_1-n_2)}{\ln(R_2/R_1)}. \]
+\end{demo}
+
+\begin{demo}[title={Application en géométrie sphérique ($n=n(r)$, $\jn=j(r)\ur$)}]
+Le flux à travers une sphère de rayon $r$, $\Phi_N=j(r)\,4\pi r^2$, est indépendant de $r$ :
+\[ -D\dfrac{\dd n}{\dd r}4\pi r^2=\Phi_N
+   \Longrightarrow n(r)=\dfrac{\Phi_N}{4\pi D}\dfrac1r+B. \]
+Avec $n(R_1)=n_1$, $n(R_2)=n_2$ :
+$\Phi_N=\dfrac{4\pi D\,(n_1-n_2)}{\dfrac1{R_1}-\dfrac1{R_2}}$.
+\end{demo}
+
+\begin{attention}
+\begin{itemize}[leftmargin=1.5em]
+  \item En cylindrique ou sphérique, c'est le \textbf{flux} qui est conservé, \emph{pas} la
+        densité de courant $j$ (qui décroît en $1/r$ ou $1/r^2$).
+  \item La conservation du flux n'est valable qu'en \textbf{régime stationnaire} et
+        \textbf{sans source}.
+\end{itemize}
+\end{attention}
+
+% ==================================================================
+\section{Th2 -- Diffusion thermique}
+% ==================================================================
+
+\subsection{Les trois modes de transfert thermique}
+
+\begin{formule}[title={Trois modes de transfert}]
+\begin{itemize}[leftmargin=1.5em]
+  \item \textbf{Conduction (diffusion thermique)} : transfert de proche en proche par les
+        chocs ou vibrations à l'échelle microscopique, \emph{sans déplacement macroscopique de
+        matière}. Seul mode possible dans un solide opaque. Objet de ce chapitre.
+  \item \textbf{Convection} : transfert associé à un déplacement macroscopique de matière
+        (fluide). \emph{Naturelle} (mouvement dû aux variations de masse volumique avec $T$)
+        ou \emph{forcée} (ventilateur, pompe).
+  \item \textbf{Rayonnement} : transfert par ondes électromagnétiques émises par tout corps
+        ; possible \emph{dans le vide} (rayonnement solaire).
+\end{itemize}
+\end{formule}
+
+\subsection{Flux thermique et densité de courant thermique}
+
+\begin{formule}[title={Définitions}]
+\begin{itemize}[leftmargin=1.5em]
+  \item \textbf{Vecteur densité de courant thermique} $\jth$ (en \si{\watt\per\square\metre})
+        : le transfert thermique à travers $\dd\vec S$ pendant $\dd t$ est
+        \[ \delta^2Q=\jth\cdot\dd\vec S\;\dd t. \]
+  \item \textbf{Flux thermique} (puissance thermique, en \si{\watt}) à travers $\Sigma$ :
+        \[ \Phi=\iint_\Sigma\jth\cdot\dd\vec S,\qquad \delta Q=\Phi\,\dd t. \]
+\end{itemize}
+\end{formule}
+
+\textbf{Exprimer un transfert thermique.} Pour une surface plane $S$ de normale $\ux$ et
+$\jth=j(x,t)\ux$ uniforme sur la surface : $\delta Q=j(x,t)\,S\,\dd t$. Pour un cylindre de
+rayon $r$, hauteur $H$ et $\jth=j(r,t)\ur$ : $\delta Q=j(r,t)\,2\pi rH\,\dd t$. Pour une
+sphère : $\delta Q=j(r,t)\,4\pi r^2\,\dd t$.
+
+\subsection{Loi de Fourier}
+
+\begin{formule}[title={Loi de Fourier}]
+\[ \boxed{\jth=-\lambda\,\grad T}\qquad\text{à 1D : }j=-\lambda\pd{T}{x}. \]
+$\lambda>0$ : \textbf{conductivité thermique} en \si{\watt\per\metre\per\kelvin}.
+\begin{center}
+\begin{tabular}{lcccccc}
+\toprule
+Matériau & air & bois & eau & béton & acier & (cuivre) \\
+\midrule
+$\lambda$ (\si{\watt\per\metre\per\kelvin}) & $0{,}025$ & $0{,}1$--$0{,}2$ & $0{,}6$ & $\approx 1$ & $\approx 50$ & $400$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{formule}
+
+\begin{itemize}[leftmargin=1.5em]
+  \item Le signe $-$ : la chaleur va spontanément du \textbf{chaud vers le froid} (cohérent
+        avec le second principe).
+  \item Dimension : $[\lambda]=\dfrac{\si{\watt\per\square\metre}}{\si{\kelvin\per\metre}}
+        =\si{\watt\per\metre\per\kelvin}$.
+  \item Les gaz sont de mauvais conducteurs : les isolants (laine de verre, polystyrène,
+        double vitrage) emprisonnent de l'air immobile. Les métaux sont de bons conducteurs
+        (les électrons libres transportent l'énergie).
+\end{itemize}
+
+\subsection{Bilan d'énergie local à 1D}
+
+On considère une phase condensée (solide ou liquide) indilatable, de masse volumique $\rho$,
+de capacité thermique massique $c$, dans laquelle $T=T(x,t)$ et $\jth=j(x,t)\ux$. On note
+$p_v$ la puissance volumique produite par d'éventuelles sources internes (effet Joule,
+réaction nucléaire ou chimique\dots) en \si{\watt\per\cubic\metre}.
+
+\begin{demo}[title={Démonstration : bilan local d'énergie à 1D (premier principe)}]
+Système fermé : la tranche entre $x$ et $x+\dd x$, de section $S$, de masse
+$\dd m=\rho S\,\dd x$. Premier principe entre $t$ et $t+\dd t$ :
+$\dd U=W+Q$. Pour une phase condensée indilatable, le travail des forces de pression est
+nul ($W=0$) et $\dd U=\dd m\,c\,\dd T$.
+\begin{itemize}[leftmargin=1.5em]
+  \item Variation d'énergie interne :
+        $\dd U=\rho S\,\dd x\;c\,\big[T(x,t+\dd t)-T(x,t)\big]=\rho c\,S\,\dd x\,\pd{T}{t}\dd t.$
+  \item Transfert thermique reçu par conduction :
+        $\delta Q_{\text{cond}}=\big[j(x,t)-j(x+\dd x,t)\big]S\,\dd t=-\pd{j}{x}S\,\dd x\,\dd t.$
+  \item Énergie produite : $\delta Q_{\text{prod}}=p_v\,S\,\dd x\,\dd t$.
+\end{itemize}
+En égalant et en simplifiant par $S\,\dd x\,\dd t$ :
+\[ \boxed{\rho c\,\pd{T}{t}=-\pd{j}{x}+p_v} \qquad
+   \text{(à 3D : } \rho c\,\pd{T}{t}=-\div\jth+p_v\text{).} \]
+\end{demo}
+
+\subsection{Équation de la chaleur (diffusion thermique)}
+
+\begin{demo}[title={Démonstration : équation de diffusion thermique en cartésiennes 1D}]
+On injecte la loi de Fourier $j=-\lambda\pd{T}{x}$ ($\lambda$ uniforme) dans le bilan :
+\[ \rho c\pd{T}{t}=\lambda\pdd{T}{x}+p_v
+   \quad\Longrightarrow\quad
+   \boxed{\pd{T}{t}=a\pdd{T}{x}+\dfrac{p_v}{\rho c}},
+   \qquad \boxed{a=\dfrac{\lambda}{\rho c}} \]
+$a$ est la \textbf{diffusivité thermique} (en \si{\square\metre\per\second}). À 3D :
+$\pd{T}{t}=a\,\Delta T+\dfrac{p_v}{\rho c}$. Sans source interne : $\pd{T}{t}=a\,\Delta T$.
+\end{demo}
+
+\textbf{Relation entre échelles caractéristiques.} Exactement comme en Th1 :
+$\dfrac{T}{\tau}\sim a\dfrac{T}{L^2}$ d'où $\boxed{L^2\sim a\,\tau}$, $\tau\sim L^2/a$.
+
+\begin{exemple}
+Mur en béton : $\lambda\approx\SI{1}{\watt\per\metre\per\kelvin}$,
+$\rho\approx\SI{2300}{\kilo\gram\per\cubic\metre}$,
+$c\approx\SI{1000}{\joule\per\kilo\gram\per\kelvin}$, soit
+$a\approx\SI{4e-7}{\square\metre\per\second}$. Pour $L=\SI{20}{\centi\metre}$ :
+$\tau\sim 0{,}04/(4\times10^{-7})=\SI{e5}{\second}\approx\SI{1}{jour}$. Le mur « lisse »
+les variations jour/nuit de température : c'est l'inertie thermique d'une maison.
+\end{exemple}
+
+\subsection{Équation de diffusion en géométrie cylindrique et sphérique}
+
+\begin{demo}[title={Démonstration : géométrie cylindrique, $T=T(r,t)$}]
+Système : la coquille cylindrique comprise entre $r$ et $r+\dd r$, de hauteur $H$, de volume
+$\dd\tau=2\pi rH\,\dd r$. On note $\Phi(r,t)=j(r,t)\,2\pi rH$ le flux \emph{sortant} à
+travers le cylindre de rayon $r$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+  \fill[bleu!10] (0,0) circle (2) ; \fill[white] (0,0) circle (1.5);
+  \draw[thick] (0,0) circle (1.5); \draw[thick] (0,0) circle (2);
+  \fill (0,0) circle (1.5pt) node[below left]{$O$};
+  \draw[->] (0,0) -- (1.5,0) node[midway,below]{$r$};
+  \draw[->] (0,0) -- (120:2) node[midway,left]{$r{+}\dd r$};
+  \draw[-{Stealth},thick,rouge] (45:1.5) -- (45:1.1) node[pos=1.6]{\small $\Phi(r)$};
+  \draw[-{Stealth},thick,rouge] (45:2) -- (45:2.6) node[right]{$\Phi(r{+}\dd r)$};
+\end{tikzpicture}
+\end{center}
+
+\begin{itemize}[leftmargin=1.5em]
+  \item $\dd U=\rho c\,2\pi rH\,\dd r\,\pd{T}{t}\,\dd t$ ;
+  \item reçu : ce qui entre en $r$ moins ce qui sort en $r+\dd r$ :
+        $\delta Q=\big[\Phi(r,t)-\Phi(r+\dd r,t)\big]\dd t=-\pd{\Phi}{r}\dd r\,\dd t
+        =-2\pi H\pd{(rj)}{r}\dd r\,\dd t$ ;
+  \item (sources : $p_v\,2\pi rH\,\dd r\,\dd t$).
+\end{itemize}
+D'où $\rho c\,\pd{T}{t}=-\dfrac1r\pd{(rj)}{r}+p_v$, puis avec Fourier $j=-\lambda\pd{T}{r}$ :
+\[ \boxed{\pd{T}{t}=\dfrac{a}{r}\pd{}{r}\!\left(r\pd{T}{r}\right)+\dfrac{p_v}{\rho c}}. \]
+On reconnaît $a\,\Delta T$ avec le laplacien cylindrique d'une fonction de $r$.
+\end{demo}
+
+\begin{demo}[title={Démonstration : géométrie sphérique, $T=T(r,t)$}]
+Coquille sphérique entre $r$ et $r+\dd r$, de volume $4\pi r^2\dd r$ ; flux sortant
+$\Phi(r,t)=j(r,t)\,4\pi r^2$.
+\[ \rho c\,4\pi r^2\dd r\,\pd{T}{t}\dd t=-\pd{\Phi}{r}\dd r\,\dd t+p_v4\pi r^2\dd r\,\dd t
+   =-4\pi\pd{(r^2j)}{r}\dd r\,\dd t+p_v4\pi r^2\dd r\,\dd t, \]
+\[ \rho c\pd{T}{t}=-\dfrac{1}{r^2}\pd{(r^2j)}{r}+p_v
+   \quad\Longrightarrow\quad
+   \boxed{\pd{T}{t}=\dfrac{a}{r^2}\pd{}{r}\!\left(r^2\pd{T}{r}\right)+\dfrac{p_v}{\rho c}}. \]
+\end{demo}
+
+\subsection{Régime permanent : conservation du flux thermique}
+
+En régime permanent et sans source, $\div\jth=0$ : le flux thermique est le même à travers
+toute section d'un tube de courant.
+
+\begin{demo}[title={Les trois géométries en régime permanent sans source}]
+\begin{itemize}[leftmargin=1.5em]
+  \item \textbf{Cartésienne 1D :} $\Phi=jS$ constant, $\dfrac{\dd^2T}{\dd x^2}=0$, donc
+        $T(x)=T_1+(T_2-T_1)\dfrac{x}{e}$ pour un mur d'épaisseur $e$ ($T(0)=T_1$,
+        $T(e)=T_2$). Profil \textbf{affine}.
+  \item \textbf{Cylindrique :} $\Phi=-\lambda\dfrac{\dd T}{\dd r}2\pi rH$ constant, donc
+        $T(r)=-\dfrac{\Phi}{2\pi\lambda H}\ln r+B$. Profil \textbf{logarithmique}.
+  \item \textbf{Sphérique :} $\Phi=-\lambda\dfrac{\dd T}{\dd r}4\pi r^2$ constant, donc
+        $T(r)=\dfrac{\Phi}{4\pi\lambda r}+B$. Profil en \textbf{$1/r$}.
+\end{itemize}
+On peut aussi l'obtenir avec l'équation de la chaleur stationnaire $\Delta T=0$ et
+l'expression du laplacien donnée par le formulaire.
+\end{demo}
+
+\begin{exemple}[title={Exemple avec source : fil parcouru par un courant}]
+Fil cylindrique de rayon $R$, conductivité $\lambda$, siège d'une puissance Joule volumique
+$p_v$ uniforme, en régime permanent, surface à $T_S$. Le flux n'est plus conservé :
+un bilan sur un cylindre de rayon $r<R$ donne
+$\Phi(r)=p_v\,\pi r^2H$ (toute la puissance produite à l'intérieur sort), soit
+$-\lambda\dfrac{\dd T}{\dd r}2\pi rH=p_v\pi r^2H$, donc
+\[ T(r)=T_S+\dfrac{p_v}{4\lambda}(R^2-r^2). \]
+La température est maximale au centre.
+\end{exemple}
+
+\subsection{Conditions aux limites}
+
+\begin{demo}[title={Démonstration : continuité du flux thermique à une interface}]
+On considère l'interface (d'aire $S$) entre deux milieux 1 et 2, et le système constitué
+d'une tranche d'épaisseur $e$ contenant l'interface. Bilan d'énergie pendant $\dd t$ :
+\[ \dd U = \big(j_1-j_2\big)S\,\dd t \quad\text{avec}\quad
+   \dd U=\rho c\,S\,e\,\dd T\xrightarrow[e\to 0]{}0. \]
+Une surface d'épaisseur nulle n'a pas de capacité thermique : elle ne peut pas accumuler
+d'énergie, donc
+\[ \boxed{\jth{}_{,1}\cdot\vec n_{12}=\jth{}_{,2}\cdot\vec n_{12}}
+   \qquad(\text{tout ce qui arrive d'un côté repart de l'autre}). \]
+En termes de flux : $\Phi_1=\Phi_2$ à travers l'interface.
+\end{demo}
+
+\begin{formule}[title={Contact thermique parfait}]
+Si le contact entre deux solides est parfait, la température est \textbf{continue} :
+$T_1(\text{interface})=T_2(\text{interface})$. (Sinon il existe une résistance de contact.)
+\end{formule}
+
+\begin{formule}[title={Loi de Newton (conducto-convective)}]
+À l'interface entre un solide (surface $S$, température de paroi $T_P$) et un fluide de
+température $T_f$ loin de la paroi, le flux thermique cédé par le solide au fluide est
+\[ \boxed{\Phi=h\,S\,(T_P-T_f)}\qquad\text{soit}\quad
+   \jth\cdot\vec n_{\text{sortant}}=h\,(T_P-T_f). \]
+$h$ : coefficient conducto-convectif en \si{\watt\per\square\metre\per\kelvin} ;
+air en convection naturelle $h\sim 5$--$25$ ; convection forcée ou eau
+$h\sim 10^2$--$10^4$.
+\end{formule}
+
+\textbf{Origine qualitative de la loi de Newton.} Au contact de la paroi, le fluide est
+immobile (condition d'adhérence) ; il existe une fine \textbf{couche limite} d'épaisseur
+$\delta$ dans laquelle la vitesse passe de $0$ à la vitesse de l'écoulement. Dans cette couche,
+le transfert se fait essentiellement par \emph{conduction}, avec un profil de température à
+peu près affine entre $T_P$ et $T_f$ :
+$j\approx\lambda_f\dfrac{T_P-T_f}{\delta}$. Au-delà, la convection homogénéise la température
+du fluide. On obtient bien un flux proportionnel à l'écart $T_P-T_f$ avec
+$h\approx\lambda_f/\delta$. L'épaisseur $\delta$ diminue quand le fluide s'écoule plus vite :
+$h$ augmente en convection forcée (on souffle sur la soupe).
+
+\subsection{Résistance thermique}
+
+\begin{formule}[title={Définition et conditions d'utilisation}]
+Pour un conducteur traversé par un flux $\Phi$ de la face à $T_1$ vers la face à $T_2$ :
+\[ \boxed{R_{\mathrm{th}}=\dfrac{T_1-T_2}{\Phi}}\qquad(\si{\kelvin\per\watt}). \]
+Conditions : \textbf{régime permanent} (ou ARQS thermique), \textbf{sans source interne},
+pour que le flux $\Phi$ soit le même à travers toutes les sections (conservé) et donc que
+$R_{\mathrm{th}}$ ne dépende que de la géométrie et du matériau.
+\end{formule}
+
+\begin{demo}[title={Démonstration : résistance d'un mur plan (cartésien 1D)}]
+Mur d'épaisseur $e$, de section $S$, de conductivité $\lambda$, faces à $T_1$ ($x=0$) et $T_2$
+($x=e$). En régime permanent sans source, $j$ est uniforme et $T$ affine :
+\[ j=-\lambda\dfrac{\dd T}{\dd x}=\lambda\dfrac{T_1-T_2}{e},
+   \qquad \Phi=jS=\dfrac{\lambda S}{e}(T_1-T_2)
+   \quad\Longrightarrow\quad \boxed{R_{\mathrm{th}}=\dfrac{e}{\lambda S}}. \]
+\end{demo}
+
+\begin{demo}[title={Démonstration : résistance d'une gaine cylindrique}]
+Gaine de rayons $R_1<R_2$, de longueur $H$, températures $T_1$ en $R_1$ et $T_2$ en $R_2$.
+Le flux radial sortant $\Phi=-\lambda\dfrac{\dd T}{\dd r}2\pi rH$ est indépendant de $r$ :
+\[ \dd T=-\dfrac{\Phi}{2\pi\lambda H}\dfrac{\dd r}{r}
+   \quad\xrightarrow{\ \int_{R_1}^{R_2}\ }\quad
+   T_2-T_1=-\dfrac{\Phi}{2\pi\lambda H}\ln\dfrac{R_2}{R_1} \]
+\[ \Longrightarrow\quad \boxed{R_{\mathrm{th}}=\dfrac{\ln(R_2/R_1)}{2\pi\lambda H}}. \]
+Vérification : si $R_2=R_1+e$ avec $e\ll R_1$, $\ln(1+e/R_1)\approx e/R_1$ et
+$R_{\mathrm{th}}\approx\dfrac{e}{\lambda\,2\pi R_1H}=\dfrac{e}{\lambda S}$ : on retrouve le mur
+plan.
+\end{demo}
+
+\begin{demo}[title={Résistance conducto-convective et coquille sphérique}]
+\begin{itemize}[leftmargin=1.5em]
+  \item Loi de Newton : $T_P-T_f=\Phi/(hS)$, donc $\boxed{R_{\mathrm{cc}}=\dfrac{1}{hS}}$.
+  \item (Sphère creuse, $R_1<R_2$) : $T_1-T_2=\dfrac{\Phi}{4\pi\lambda}\left(\dfrac1{R_1}-\dfrac1{R_2}\right)$,
+        donc $R_{\mathrm{th}}=\dfrac{1}{4\pi\lambda}\left(\dfrac1{R_1}-\dfrac1{R_2}\right)$.
+\end{itemize}
+\end{demo}
+
+\begin{demo}[title={Démonstration : associations de résistances thermiques}]
+\textbf{En série} (couches successives traversées par le \emph{même flux} $\Phi$, grâce à la
+continuité du flux aux interfaces) :
+\[ T_0-T_n=\sum_{k=1}^{n}(T_{k-1}-T_k)=\sum_k R_k\Phi
+   \quad\Longrightarrow\quad \boxed{R_{\text{éq}}=\sum_k R_k}. \]
+\textbf{En parallèle} (milieux juxtaposés soumis au \emph{même écart} $T_1-T_2$) :
+\[ \Phi=\sum_k\Phi_k=\sum_k\dfrac{T_1-T_2}{R_k}
+   \quad\Longrightarrow\quad \boxed{\dfrac1{R_{\text{éq}}}=\sum_k\dfrac1{R_k}}. \]
+\end{demo}
+
+\begin{exemple}[title={Exemple : simple vitrage}]
+Vitre d'épaisseur $e=\SI{4}{\milli\metre}$, $\lambda=\SI{1}{\watt\per\metre\per\kelvin}$,
+$S=\SI{1}{\square\metre}$, $h_{\text{int}}=\SI{10}{}$, $h_{\text{ext}}=\SI{20}{\watt\per\square\metre\per\kelvin}$.
+En série : $R=\dfrac1{h_iS}+\dfrac{e}{\lambda S}+\dfrac{1}{h_eS}
+=0{,}1+0{,}004+0{,}05\approx\SI{0.15}{\kelvin\per\watt}$.
+Ce sont les couches limites d'air qui isolent, pas le verre ! Pour
+$\Delta T=\SI{20}{\kelvin}$ : $\Phi\approx\SI{130}{\watt}$.
+\end{exemple}
+
+\subsection{Analogie conduction thermique / conduction électrique}
+
+\begin{demo}[title={Démonstration : la résistance électrique d'un conducteur ohmique}]
+Loi d'Ohm locale : $\vec\jmath=\gamma\vec E=-\gamma\grad V$ (en régime permanent). Pour un
+barreau de longueur $L$, section $S$ : $I=jS=\gamma S\dfrac{V_1-V_2}{L}$, donc
+$R=\dfrac{V_1-V_2}{I}=\dfrac{L}{\gamma S}$. Les calculs sont \emph{identiques} à ceux du mur
+plan, en remplaçant les grandeurs selon le tableau.
+\end{demo}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{lll}
+\toprule
+ & \textbf{Thermique} & \textbf{Électrique} \\
+\midrule
+Grandeur « potentiel » & température $T$ & potentiel $V$ \\
+Grandeur transportée & énergie $Q$ & charge $q$ \\
+Débit & flux $\Phi$ (\si{\watt}) & intensité $I$ (\si{\ampere}) \\
+Loi locale & Fourier $\jth=-\lambda\grad T$ & Ohm $\vec\jmath=-\gamma\grad V$ \\
+Conductivité & $\lambda$ & $\gamma$ \\
+Résistance & $R_{\mathrm{th}}=\dfrac{T_1-T_2}{\Phi}=\dfrac{e}{\lambda S}$ & $R=\dfrac{V_1-V_2}{I}=\dfrac{L}{\gamma S}$ \\
+Stockage & capacité thermique $C=mc$ & condensateur $C$ \\
+Lois des nœuds/mailles & conservation du flux & lois de Kirchhoff \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Approximation des régimes quasi-stationnaires (ARQS) thermique}
+
+\begin{formule}[title={ARQS thermique}]
+Si les conditions aux limites varient sur une durée caractéristique $\tau_{\text{ext}}$ très
+grande devant la durée de diffusion à travers le système de taille $L$,
+\[ \boxed{\tau_{\text{ext}}\gg\tau_{\text{diff}}=\dfrac{L^2}{a}}, \]
+alors on peut négliger $\pd{T}{t}$ devant $a\Delta T$ dans le conducteur : le profil de
+température est à chaque instant celui du \textbf{régime permanent} correspondant aux
+conditions aux limites instantanées.
+\end{formule}
+
+\textbf{Justification.} En ordre de grandeur, $\left|\pd{T}{t}\right|\sim\dfrac{\Delta T}{\tau_{\text{ext}}}$
+et $|a\,\Delta T|\sim\dfrac{a\,\Delta T}{L^2}=\dfrac{\Delta T}{\tau_{\text{diff}}}$. Le
+premier terme est négligeable si $\tau_{\text{ext}}\gg\tau_{\text{diff}}$. Conséquence : le
+flux est conservé \emph{à chaque instant} dans le conducteur, et la notion de résistance
+thermique reste utilisable avec $\Phi(t)=\dfrac{T_1(t)-T_2(t)}{R_{\mathrm{th}}}$.
+
+\begin{exemple}
+Vitre ($L=\SI{4}{\milli\metre}$, $a\approx\SI{5e-7}{\square\metre\per\second}$) :
+$\tau_{\text{diff}}\approx\SI{30}{\second}$, très petit devant la durée d'évolution de la
+température extérieure (quelques heures) : ARQS valide. Pour un mur de \SI{20}{\centi\metre}
+de béton ($\tau_{\text{diff}}\approx 1$ jour), l'ARQS n'est \emph{pas} valable pour les
+variations jour/nuit.
+\end{exemple}
+
+\subsection{Circuit RC thermique}
+
+\begin{demo}[title={Démonstration : refroidissement d'un corps (circuit RC thermique)}]
+Un corps de masse $m$, capacité thermique massique $c$ (capacité $C=mc$), de température
+\emph{uniforme} $T(t)$, est relié à un thermostat de température $T_0$ par une résistance
+thermique $R$ (paroi en ARQS, ou échange conducto-convectif $R=1/(hS)$). Premier principe pour
+le corps entre $t$ et $t+\dd t$ :
+\[ C\,\dd T=-\Phi\,\dd t=-\dfrac{T-T_0}{R}\dd t
+   \quad\Longrightarrow\quad
+   \boxed{\dfrac{\dd T}{\dd t}+\dfrac{T}{RC}=\dfrac{T_0}{RC}}. \]
+Avec $T(0)=T_i$ :
+\[ T(t)=T_0+(T_i-T_0)\,e^{-t/\tau},\qquad \boxed{\tau=RC}
+   \quad\left(=\dfrac{mc}{hS}\text{ pour un échange de Newton}\right). \]
+C'est exactement l'équation de la décharge d'un condensateur $C$ dans une résistance $R$ :
+$T\leftrightarrow V$, $\Phi\leftrightarrow I$.
+\end{demo}
+
+\begin{attention}
+\begin{itemize}[leftmargin=1.5em]
+  \item Le modèle RC suppose que la température du corps est uniforme, et que la résistance
+        est en ARQS ($RC\gg\tau_{\text{diff}}$ de la paroi).
+  \item Bien orienter le flux : ici $\Phi$ est compté du corps vers le thermostat.
+\end{itemize}
+\end{attention}
+
+% ==================================================================
+\section{Synthèse : méthode générale d'un bilan}
+% ==================================================================
+
+\begin{formule}[title={Méthode à appliquer en colle}]
+\begin{enumerate}[leftmargin=1.5em]
+  \item Identifier les symétries et invariances : de quelles variables dépend $n$ ou $T$ ?
+        Quelle est la direction de $\vec\jmath$ ?
+  \item Choisir un système élémentaire adapté : tranche $[x,x+\dd x]$, coquille cylindrique
+        ou sphérique $[r,r+\dd r]$.
+  \item Écrire entre $t$ et $t+\dd t$ : variation $=$ entrant $-$ sortant $+$ produit.
+  \item Faire un développement limité à l'ordre 1 en $\dd x$ (ou $\dd r$) et $\dd t$, puis
+        simplifier.
+  \item Injecter la loi phénoménologique (Fick ou Fourier) pour obtenir l'équation de
+        diffusion.
+  \item Résoudre avec les conditions aux limites : valeurs imposées, continuité du flux,
+        contact parfait, loi de Newton.
+\end{enumerate}
+\end{formule}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{lll}
+\toprule
+ & \textbf{Diffusion de particules} & \textbf{Diffusion thermique} \\
+\midrule
+Grandeur & $n$ (\si{\per\cubic\metre}) & $T$ (\si{\kelvin}), via $\rho c\,T$ \\
+Courant & $\jn$ (\si{\per\square\metre\per\second}) & $\jth$ (\si{\watt\per\square\metre}) \\
+Loi & $\jn=-D\grad n$ & $\jth=-\lambda\grad T$ \\
+Bilan & $\pd{n}{t}+\div\jn=\sigma$ & $\rho c\pd{T}{t}+\div\jth=p_v$ \\
+Équation & $\pd{n}{t}=D\Delta n+\sigma$ & $\pd{T}{t}=a\Delta T+\dfrac{p_v}{\rho c}$ \\
+Échelles & $L^2\sim D\tau$ & $L^2\sim a\tau$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\end{document}
