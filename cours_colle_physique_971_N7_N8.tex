@@ -12,6 +12,7 @@
 \usepackage[french]{babel}
 \usepackage[margin=2cm]{geometry}
 \usepackage{amsmath,amssymb}
+\usepackage{esint} % pour \oiint
 \usepackage{siunitx}
 \sisetup{locale=FR, per-mode=symbol}
 \usepackage{array,booktabs}
@@ -656,7 +657,7 @@ continuité du flux aux interfaces) :
 
 \begin{exemple}[title={Exemple : simple vitrage}]
 Vitre d'épaisseur $e=\SI{4}{\milli\metre}$, $\lambda=\SI{1}{\watt\per\metre\per\kelvin}$,
-$S=\SI{1}{\square\metre}$, $h_{\text{int}}=\SI{10}{}$, $h_{\text{ext}}=\SI{20}{\watt\per\square\metre\per\kelvin}$.
+$S=\SI{1}{\square\metre}$, $h_{\text{int}}=\SI{10}{\watt\per\square\metre\per\kelvin}$, $h_{\text{ext}}=\SI{20}{\watt\per\square\metre\per\kelvin}$.
 En série : $R=\dfrac1{h_iS}+\dfrac{e}{\lambda S}+\dfrac{1}{h_eS}
 =0{,}1+0{,}004+0{,}05\approx\SI{0.15}{\kelvin\per\watt}$.
 Ce sont les couches limites d'air qui isolent, pas le verre ! Pour
