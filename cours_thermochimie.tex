@@ -1,0 +1,380 @@
+\documentclass[11pt,a4paper]{article}
+
+% ------------------------------------------------------------------
+%  Cours de thermochimie -- PSI
+%  Rédigé à partir du formulaire manuscrit
+% ------------------------------------------------------------------
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage[version=4]{mhchem}
+\usepackage{siunitx}
+\sisetup{locale=FR, per-mode=symbol}
+\usepackage{enumitem}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+
+% --- Couleurs -------------------------------------------------------
+\definecolor{bleu}{RGB}{0,70,140}
+\definecolor{vert}{RGB}{0,110,60}
+\definecolor{orange}{RGB}{190,90,0}
+
+% --- Titres ---------------------------------------------------------
+\titleformat{\section}{\Large\bfseries\color{bleu}}{\thesection.}{0.6em}{}[{\color{bleu}\titlerule[1pt]}]
+\titleformat{\subsection}{\large\bfseries\color{bleu!80!black}}{\thesubsection}{0.6em}{}
+
+% --- Encadrés -------------------------------------------------------
+\newtcolorbox{resultat}[1][]{colback=bleu!5, colframe=bleu, fonttitle=\bfseries,
+  breakable, #1}
+\newtcolorbox{definition}[1][]{colback=vert!5, colframe=vert, fonttitle=\bfseries,
+  breakable, #1}
+\newtcolorbox{attention}[1][]{colback=orange!7, colframe=orange, fonttitle=\bfseries,
+  title={Attention}, breakable, #1}
+
+% --- En-tête --------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small PSI -- Chimie}
+\rhead{\small Thermochimie}
+\cfoot{\thepage}
+
+% --- Macros ---------------------------------------------------------
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\rG}{\Delta_r G}
+\newcommand{\rH}{\Delta_r H}
+\newcommand{\rS}{\Delta_r S}
+\newcommand{\std}{^\circ}
+\newcommand{\pd}[3]{\left(\frac{\partial #1}{\partial #2}\right)_{#3}}
+
+\begin{document}
+
+\begin{center}
+  {\LARGE\bfseries\color{bleu} Thermochimie}\\[4pt]
+  {\large Résumé de cours --- PSI}
+\end{center}
+
+\tableofcontents
+\vspace{1em}
+
+% ==================================================================
+\section{L'enthalpie libre $G$}
+% ==================================================================
+
+\subsection{Définition et principe d'évolution}
+
+\begin{definition}[title={Enthalpie libre (fonction de Gibbs)}]
+\[
+  G = U - TS + pV = H - TS
+\]
+$G$ est une fonction d'état extensive, exprimée en joules.
+\end{definition}
+
+\begin{resultat}[title={Principe d'évolution}]
+Pour un système fermé en évolution \textbf{monotherme et monobare} (en
+particulier à $T$ et $P$ fixés), $G$ joue le rôle de \emph{potentiel
+thermodynamique} :
+\begin{itemize}[nosep]
+  \item $G$ \textbf{décroît} au cours de l'évolution spontanée ;
+  \item $G$ est \textbf{minimale} à l'équilibre.
+\end{itemize}
+En effet, $\dd G = -T\,\delta S_c \le 0$ où $\delta S_c \ge 0$ est l'entropie créée.
+\end{resultat}
+
+\subsection{Identités thermodynamiques à composition constante}
+
+Pour un système fermé de composition fixée :
+\begin{align*}
+  &(1)\quad \dd U = T\,\dd S - P\,\dd V \\
+  &(2)\quad \dd H = T\,\dd S + V\,\dd P \\
+  &(3)\quad \dd G = -S\,\dd T + V\,\dd P
+\end{align*}
+
+\begin{resultat}[title={Conséquences}]
+Par identification avec la différentielle de $G(T,P)$ :
+\[
+  S = -\pd{G}{T}{P}
+  \qquad\qquad
+  V = \pd{G}{P}{T}
+\]
+\end{resultat}
+
+\subsection{Système de composition variable : potentiel chimique}
+
+Lorsque les quantités de matière $n_i$ varient, il faut ajouter des termes
+en $\dd n_i$ :
+\[
+  \dd U = T\,\dd S - P\,\dd V + \sum_i \pd{U}{n_i}{S,V,n_{j\neq i}} \dd n_i ,
+\]
+et de même pour $\dd H$ et $\dd G$. Ces dérivées partielles sont toutes égales
+et définissent le potentiel chimique.
+
+\begin{definition}[title={Potentiel chimique}]
+\[
+  \mu_i(T,P,n_1,\dots) = \pd{G}{n_i}{T,P,n_{j\neq i}} = G_{m,i}
+\]
+Le potentiel chimique de l'espèce $i$ est l'\textbf{enthalpie libre molaire
+partielle} de $i$ (en \si{\joule\per\mole}).
+\end{definition}
+
+\begin{resultat}[title={Quatrième identité thermodynamique}]
+\[
+  \dd G = -S\,\dd T + V\,\dd P + \sum_i \mu_i\,\dd n_i
+\]
+\end{resultat}
+
+\paragraph{Système fermé, isotherme et isobare.}
+On obtient alors
+\[
+  \dd G = \sum_i \mu_i\,\dd n_i = -T\,\delta S_c \le 0 .
+\]
+
+\subsection{Identité d'Euler et relation de Gibbs--Duhem}
+
+\begin{resultat}[title={Identité d'Euler}]
+$G$ étant extensive :
+\[
+  G(T,P,n_1,\dots) = \sum_i n_i\, G_{m,i}(T,P,n_1,\dots) = \sum_i n_i\,\mu_i
+\]
+\end{resultat}
+
+En différentiant l'identité d'Euler et en comparant à la 4\textsuperscript{e}
+identité thermodynamique :
+
+\begin{resultat}[title={Relation de Gibbs--Duhem}]
+\[
+  -S\,\dd T + V\,\dd P = \sum_i n_i\,\dd\mu_i
+  \qquad\Longrightarrow\qquad
+  \text{à } T,P \text{ constants : } \sum_i n_i\,\dd\mu_i = 0
+\]
+\end{resultat}
+
+\subsection{Activité}
+
+\begin{definition}[title={Définition de l'activité}]
+\[
+  \mu_i(T,P,n_1,\dots) = \mu_i\std(T) + RT\ln(a_i)
+\]
+où $\mu_i\std(T)$ est le potentiel chimique standard (ne dépend que de $T$) et
+$a_i$ l'activité (sans dimension) de l'espèce $i$.
+\end{definition}
+
+Expressions usuelles de l'activité ($P\std = \SI{1}{bar}$,
+$c\std = \SI{1}{\mole\per\liter}$) :
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|l|c|}
+  \hline
+  Gaz parfait (pression partielle $P_i$) & $a_i = P_i/P\std$ \\
+  \hline
+  Soluté dilué & $a_i = c_i/c\std$ \\
+  \hline
+  Solvant, solide ou liquide seul dans sa phase & $a_i = 1$ \\
+  \hline
+  Constituant d'un mélange idéal (fraction molaire $x_i$) & $a_i = x_i$ \\
+  \hline
+\end{tabular}
+\end{center}
+
+% ==================================================================
+\section{Corps pur et changements d'état}
+% ==================================================================
+
+\subsection{Corps pur monophasé}
+
+Pour un corps pur seul dans sa phase, l'identité d'Euler donne
+\[
+  G = n\,\mu^* \qquad\text{avec}\qquad \mu^* = G_m ,
+\]
+et la relation de Gibbs--Duhem (divisée par $n$) :
+\begin{resultat}
+\[
+  \dd\mu^* = -S_m\,\dd T + V_m\,\dd P
+\]
+\end{resultat}
+
+\subsection{Corps pur diphasé : condition d'équilibre}
+
+On considère un corps pur présent sous deux phases (1) et (2), à $T$ et $P$
+fixés. Si une quantité $\dd n_2 = -\dd n_1$ passe de la phase (1) à la phase (2) :
+\[
+  \dd G_{T,P} = \left(\mu_2^* - \mu_1^*\right)\dd n_2 .
+\]
+\begin{itemize}[nosep]
+  \item Si $\mu_2^* < \mu_1^*$ : $\dd n_2 > 0$, la matière passe dans la phase de
+        plus faible potentiel chimique.
+  \item À l'équilibre $\dd G = 0$ :
+\end{itemize}
+\begin{resultat}[title={Équilibre diphasé}]
+\[
+  \mu_1^*(T,P) = \mu_2^*(T,P)
+\]
+Cette relation définit la courbe d'équilibre $P = P_{\text{éq}}(T)$ dans le
+diagramme $(P,T)$.
+\end{resultat}
+
+\subsection{Changement d'état et relation de Clapeyron}
+
+Sur la courbe d'équilibre, le changement d'état est réversible à $T$ et $P$
+fixés, donc
+\[
+  \Delta_{1\to2} S_m = \frac{\Delta_{1\to2} H_m}{T} .
+\]
+En écrivant $\dd\mu_1^* = \dd\mu_2^*$ le long de la courbe d'équilibre :
+\[
+  -S_{m,1}\,\dd T + V_{m,1}\,\dd P = -S_{m,2}\,\dd T + V_{m,2}\,\dd P .
+\]
+
+\begin{resultat}[title={Relation de Clapeyron}]
+\[
+  \frac{\dd P}{\dd T} = \frac{1}{T}\,\frac{\Delta_{1\to2} h}{\Delta_{1\to2} v}
+\]
+avec $\Delta_{1\to2}h$ l'enthalpie massique (ou molaire) de changement d'état et
+$\Delta_{1\to2}v$ la variation de volume massique (ou molaire) correspondante.
+\end{resultat}
+
+% ==================================================================
+\section{Réaction chimique}
+% ==================================================================
+
+\subsection{Enthalpie libre de réaction}
+
+On considère une seule réaction $0 = \sum_i \nu_i A_i$, d'avancement $\xi$ :
+$\dd n_i = \nu_i\,\dd\xi$. La 4\textsuperscript{e} identité devient
+\[
+  \dd G = -S\,\dd T + V\,\dd P + \rG\,\dd\xi .
+\]
+
+\begin{definition}[title={Enthalpie libre de réaction}]
+\[
+  \rG = \pd{G}{\xi}{T,P} = \sum_i \nu_i\,\mu_i(T,P,\xi)
+\]
+\end{definition}
+
+\begin{resultat}[title={Critère d'évolution à $T$, $P$ fixés}]
+\[
+  \rG\,\dd\xi = -T\,\delta S_c < 0 \quad\text{pour une évolution spontanée.}
+\]
+\begin{itemize}[nosep]
+  \item $\rG < 0 \Rightarrow \dd\xi > 0$ : évolution dans le sens direct ;
+  \item $\rG > 0 \Rightarrow \dd\xi < 0$ : évolution dans le sens indirect ;
+  \item $\rG = 0$ : équilibre chimique.
+\end{itemize}
+\end{resultat}
+
+\subsection{Grandeurs standard de réaction}
+
+\begin{definition}[title={Enthalpie libre standard de réaction}]
+\[
+  \rG\std(T) = \sum_i \nu_i\,\mu_i\std(T)
+\]
+\end{definition}
+
+\begin{attention}
+\[
+  \rG(T,P,\xi) \neq \rG\std(T)
+\]
+$\rG$ dépend de l'état du système (via les activités), alors que $\rG\std$ ne
+dépend que de la température.
+\end{attention}
+
+\begin{resultat}[title={Calcul de $\rG\std$}]
+\[
+  \rG\std(T) = \rH\std(T) - T\,\rS\std(T)
+  = \sum_i \nu_i\,\Delta_f G_i\std(T)
+\]
+où $\Delta_f G_i\std$ est l'enthalpie libre standard de formation de l'espèce $i$
+(nulle pour un corps simple dans son état standard de référence).
+\end{resultat}
+
+\paragraph{Entropie standard de réaction.}
+\[
+  \rS\std = \sum_i \nu_i\, S\std_{m,i}(T)
+\]
+Règle qualitative : les gaz ayant une entropie molaire bien plus grande que les
+phases condensées,
+\[
+  \sum_i \nu_{i,\text{gaz}} > 0 \;\Longrightarrow\; \rS\std > 0 .
+\]
+
+\subsection{Loi de Hess}
+
+\begin{resultat}[title={Loi de Hess}]
+Si la réaction $(R)$ est une combinaison linéaire
+$(R) = \alpha\,(R_1) + \beta\,(R_2)$, alors
+\[
+  \rG\std(T) = \alpha\,\rG\std_1(T) + \beta\,\rG\std_2(T)
+\]
+(et de même pour $\rH\std$ et $\rS\std$).
+\end{resultat}
+
+% ==================================================================
+\section{Équilibre chimique}
+% ==================================================================
+
+\subsection{Quotient réactionnel et constante d'équilibre}
+
+En injectant $\mu_i = \mu_i\std + RT\ln a_i$ dans $\rG = \sum_i \nu_i \mu_i$ :
+
+\begin{resultat}[title={Expression de $\rG$}]
+\[
+  \rG(T,P,\xi) = \rG\std(T) + RT\ln Q_r
+  \qquad\text{avec}\qquad
+  Q_r = \prod_i a_i^{\nu_i}
+\]
+\end{resultat}
+
+\begin{definition}[title={Constante d'équilibre}]
+\[
+  K\std(T) = \exp\!\left(-\frac{\rG\std(T)}{RT}\right)
+  \qquad\Longleftrightarrow\qquad
+  \rG\std(T) = -RT\ln K\std(T)
+\]
+\end{definition}
+
+On en déduit
+\begin{resultat}
+\[
+  \rG(T,P,\xi) = RT\ln\!\left(\frac{Q_r}{K\std(T)}\right)
+\]
+\begin{itemize}[nosep]
+  \item $Q_r < K\std \Leftrightarrow \rG < 0$ : évolution dans le sens direct ;
+  \item $Q_r > K\std \Leftrightarrow \rG > 0$ : évolution dans le sens indirect ;
+  \item $Q_r = K\std$ : équilibre (loi d'action des masses, ou relation de Guldberg et Waage).
+\end{itemize}
+\end{resultat}
+
+\subsection{Combinaison de réactions}
+
+\begin{resultat}
+Si $(R) = \alpha\,(R_1) + \beta\,(R_2)$, la loi de Hess donne
+\[
+  K\std = \left(K_1\std\right)^{\alpha}\left(K_2\std\right)^{\beta}
+\]
+\end{resultat}
+
+\subsection{Influence de la température : loi de Van't Hoff}
+
+\begin{resultat}[title={Loi de Van't Hoff}]
+\[
+  \frac{\dd \ln K\std(T)}{\dd T} = \frac{\rH\std}{RT^2}
+\]
+\begin{itemize}[nosep]
+  \item Réaction endothermique ($\rH\std > 0$) : $K\std$ croît avec $T$ ;
+  \item Réaction exothermique ($\rH\std < 0$) : $K\std$ décroît avec $T$.
+\end{itemize}
+\end{resultat}
+
+Dans l'approximation d'Ellingham ($\rH\std$ et $\rS\std$ indépendants de $T$),
+l'intégration donne
+\[
+  \ln\frac{K\std(T_2)}{K\std(T_1)} = -\frac{\rH\std}{R}\left(\frac{1}{T_2}-\frac{1}{T_1}\right).
+\]
+
+\end{document}
